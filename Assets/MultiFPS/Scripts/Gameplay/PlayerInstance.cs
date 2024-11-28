@@ -271,20 +271,21 @@ namespace MultiFPS.Gameplay
                     characterItemManager.Slots[i].ItemOnSpawn = _itemsOnSpawn[i] ? _itemsOnSpawn[i].gameObject : null;
                 }
             }
-            else
-            {
-                //if no special equipment is required just spawn character with items that player wants
-                for (int i = 0; i < PlayerInfo.Lodout.Length; i++)
-                {
-                    if (PlayerInfo.Lodout[i] < 0) continue;
-
-                    if (i >= characterItemManager.Slots.Count) break;
-
-                    if (i >= ItemManager.Instance.SlotsLodout[i].availableItemsForSlot.Length) continue;
-
-                    characterItemManager.Slots[i].ItemOnSpawn = ItemManager.Instance.SlotsLodout[i].availableItemsForSlot[PlayerInfo.Lodout[i]].gameObject;
-                }
-            }
+            // else
+            // {
+            //     //if no special equipment is required just spawn character with items that player wants
+            //     for (int i = 0; i < PlayerInfo.Lodout.Length; i++)
+            //     {
+            //         if (PlayerInfo.Lodout[i] < 0) continue;
+            //
+            //         if (i >= characterItemManager.Slots.Count) break;
+            //
+            //         if (i >= ItemManager.Instance.SlotsLodout[i].availableItemsForSlot.Length) continue;
+            //
+            //         var item = ItemManager.Instance.SlotsLodout[i].availableItemsForSlot[PlayerInfo.Lodout[i]].gameObject;
+            //         characterItemManager.Slots[i].ItemOnSpawn = ItemManager.Instance.SlotsLodout[i].availableItemsForSlot[PlayerInfo.Lodout[i]].gameObject;
+            //     }
+            // }
 
             MyCharacter.Health.Team = Team;
 
@@ -367,6 +368,7 @@ namespace MultiFPS.Gameplay
             Deaths++;
             Server_UpdateStatsForAllClients();
             Server_CountCooldown();
+            GameManager.Gamemode.Server_OnPlayerDied(this);
         }
 
         #region update stats

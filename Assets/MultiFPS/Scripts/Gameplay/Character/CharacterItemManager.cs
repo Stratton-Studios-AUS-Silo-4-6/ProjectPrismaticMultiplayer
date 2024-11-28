@@ -2,9 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Random = UnityEngine.Random;
 
 namespace MultiFPS.Gameplay
 {
+    [System.Serializable]
+    public class Slot 
+    {
+        //slot type, determines if item can be dropped or replaced by another, or not
+        //Normal: item can be dropped/replaced by another
+        //BuildIn: item will stay in this slot forever
+        //You can customize slots hovever you like in the inspector
+        public SlotType Type;
+        /// <summary>
+        /// what input players has to press to select this slot
+        /// </summary>
+        public SlotInput SlotInput;
+        //actual gameplay item, dont drag anything here in the inspector, game will fill that on runtime.
+        //it does not need to be visible in the inspector, but we kept it visible so You can see what is going on real time
+        //You can hide it if you like by uncommenting "[HideInInspector]" attribute below
+
+        /*[HideInInspector]*/
+        public Item Item;
+
+        //If you wish player character to have certain default item for certain slot
+        //then drag and drop here that item prefab from project files
+        public GameObject ItemOnSpawn;
+
+        public string SpecificItemOnly;
+    }
+
+    public enum SlotType
+    {
+        Normal, //=> item can be dropped/replaced by another
+        //BuiltIn, //=>  item will stay in this slot forever
+        PocketItem,
+    }
+
     public class CharacterItemManager : DNNetworkBehaviour
     {
         public List<Slot> Slots = new List<Slot>();
@@ -117,41 +151,43 @@ namespace MultiFPS.Gameplay
         }
 
         #region spawn
-        //Spawn and attach to characters items selected in inspector
-        public void SpawnStarterEquipment()
+        /// <summary>
+        /// Spawn and attach to characters items serialized to <see cref="Slot.ItemOnSpawn"/>
+        /// in each entry serialized in <see cref="Slots"/>. 
+        /// </summary>
+        public void Server_SpawnStarterEquipment()
         {
-            //prepare items for attaching to player
             for (int i = 0; i < Slots.Count; i++)
             {
-                Slot slot = Slots[i];
-
-                if (ReassingItemsFromPreviousLife)
+                var slot = Slots[i];
+                var prefab = slot.ItemOnSpawn;
+                
+                if (!prefab)
                 {
-                    Item rememberedItem = _rememberedItems[i];
-                    if (rememberedItem != null && !rememberedItem.MyOwner) //reuse item if possible
-                    {
-                        rememberedItem.Server_ResetItemValues();
-                        continue;
-                    }
-                }
-
-                //if we cannot reassign item, create new one
-                GameObject itemPrefab = slot.ItemOnSpawn;
-                if (itemPrefab)
-                {
-                    Item itemGM = Instantiate(itemPrefab, transform.position, transform.rotation).GetComponent<Item>();
-                    NetworkServer.Spawn(itemGM.gameObject);
-                    _rememberedItems[i] = itemGM;
-                }
-            }
-
-            //attach items to player
-            for (int i = 0; i < _rememberedItems.Length; i++)
-            {
-                if (_rememberedItems[i] == null)
                     continue;
+                }
 
-                AttachItemToCharacter(_rememberedItems[i], i);
+                var instance = Instantiate(prefab, transform.position, transform.rotation).GetComponent<Item>();
+                NetworkServer.Spawn(instance.gameObject);
+                AttachItemToCharacter(instance, i);
+            }
+        }
+
+        /// <summary>
+        /// Spawn <see cref="Item"/>s using prefab instances.
+        /// Item indices match slot indices.
+        /// </summary>
+        /// <param name="prefabs">
+        /// The prefab of the Items to be spawned.
+        /// </param>
+        public void Server_SpawnInventory(params Item[] prefabs)
+        {
+            for (int i = 0; i < prefabs.Length; i++)
+            {
+                var prefab = prefabs[i];
+                var instance = Instantiate(prefab, transform.position, transform.rotation);
+                NetworkServer.Spawn(instance.gameObject);
+                AttachItemToCharacter(instance, i);
             }
         }
         #endregion
@@ -461,9 +497,37 @@ namespace MultiFPS.Gameplay
         void RpcClientTakeItemIncludeOwner(int slotID)
         {
             if (isServer) return;
-                Take(slotID);
+            Take(slotID);
         }
-        //drop
+
+        public void Server_DespawnAllItems()
+        {
+            if (!isServer) return;
+            for (int i = 0; i < Slots.Count; i++)
+            {
+                Server_DespawnItem(i);
+            }
+        }
+
+        public void Server_DespawnItem(int slotIndex)
+        {
+            if (!isServer)
+            {
+                return;
+            }
+            
+            var item = Slots[slotIndex].Item;
+
+            if (!item)
+            {
+                return;
+            }
+            
+            Slots[slotIndex].Item = null;
+            NetworkServer.Destroy(item.gameObject);
+            Destroy(item.gameObject);
+        }
+        
         [Command]
         void CmdDropItem(int slotIDtoDrop)
         {
@@ -474,6 +538,15 @@ namespace MultiFPS.Gameplay
 
             Server_DropItem(slotIDtoDrop);
         }
+
+        public void Server_DropAllItems()
+        {
+            for (int i = 0; i < Slots.Count; i++)
+            {
+                Server_DropItem(i);
+            }
+        }
+
         public void Server_DropItem(int slotIDtoDrop = -1)  
         {
             if (slotIDtoDrop == -1) slotIDtoDrop = CurrentlyUsedSlotID;
@@ -481,6 +554,7 @@ namespace MultiFPS.Gameplay
             Drop(slotIDtoDrop);
             RpcDropItem(slotIDtoDrop);
         }
+
         [ClientRpc]
         void RpcDropItem(int slotIDtoDrop)
         {
@@ -582,13 +656,13 @@ namespace MultiFPS.Gameplay
             PreviouslyUsedSlotID = -1;
             CurrentlyUsedItem = null;
 
-            if(ReassingItemsFromPreviousLife)
-                for (int i = 0; i < Slots.Count; i++)
-                    _rememberedItems[i] = Slots[i].Item;
-
-            for (int i = 0; i < Slots.Count; i++)
+            if (ReassingItemsFromPreviousLife)
             {
-                Server_DropItem(i);
+                for (int i = 0; i < Slots.Count; i++)
+                {
+                    var item = Slots[i].Item;
+                    _rememberedItems[i] = item;
+                }
             }
         }
         #endregion
@@ -653,37 +727,7 @@ namespace MultiFPS.Gameplay
         #endregion
 
     }
-    [System.Serializable]
-    public class Slot 
-    {
-        //slot type, determines if item can be dropped or replaced by another, or not
-        //Normal: item can be dropped/replaced by another
-        //BuildIn: item will stay in this slot forever
-        //You can customize slots hovever you like in the inspector
-        public SlotType Type;
-        /// <summary>
-        /// what input players has to press to select this slot
-        /// </summary>
-        public SlotInput SlotInput;
-        //actual gameplay item, dont drag anything here in the inspector, game will fill that on runtime.
-        //it does not need to be visible in the inspector, but we kept it visible so You can see what is going on real time
-        //You can hide it if you like by uncommenting "[HideInInspector]" attribute below
 
-        /*[HideInInspector]*/
-        public Item Item;
-
-        //If you wish player character to have certain default item for certain slot
-        //then drag and drop here that item prefab from project files
-        public GameObject ItemOnSpawn;
-
-        public string SpecificItemOnly;
-    }
-    public enum SlotType
-    {
-        Normal, //=> item can be dropped/replaced by another
-        //BuiltIn, //=>  item will stay in this slot forever
-        PocketItem,
-    }
     public enum SlotInput 
     {
         I_1,

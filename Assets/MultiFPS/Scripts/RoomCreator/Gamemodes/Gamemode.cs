@@ -137,6 +137,9 @@ namespace MultiFPS.Gameplay.Gamemodes
                 AssignPlayerToTeam(player, 0);
 
             player.Server_ProcessSpawnRequest();
+            var characterItemManager = player.MyCharacter?.CharacterItemManager; 
+            characterItemManager?.Server_SpawnStarterEquipment();
+            characterItemManager?.ServerCommandTakeItem(0);
         }
 
         public void Server_OnPlayerInstanceRemoved(PlayerInstance player)
@@ -594,6 +597,18 @@ namespace MultiFPS.Gameplay.Gamemodes
             return aliveOnes;
         }
         #endregion
+
+        public virtual void Server_OnPlayerRespawn(PlayerInstance playerInstance)
+        {
+            var characterItemManager = playerInstance.MyCharacter.CharacterItemManager;
+            characterItemManager.Server_SpawnStarterEquipment();
+            characterItemManager.ServerCommandTakeItem(0);
+        }
+
+        public virtual void Server_OnPlayerDied(PlayerInstance playerInstance)
+        {
+            playerInstance.MyCharacter.CharacterItemManager.Server_DropAllItems();
+        }
     }
 
     public enum Gamemodes : byte
@@ -603,5 +618,6 @@ namespace MultiFPS.Gameplay.Gamemodes
         TeamDeathmatch = 1,
         TeamEliminations = 2,
         Defuse = 3,
+        GunProgression = 4,
     }
 }
