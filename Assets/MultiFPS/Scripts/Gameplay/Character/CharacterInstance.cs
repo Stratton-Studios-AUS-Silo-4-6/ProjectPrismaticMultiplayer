@@ -176,8 +176,6 @@ namespace MultiFPS.Gameplay {
 
             if (isServer)
             {
-                CharacterItemManager.SpawnStarterEquipment();
-                CharacterItemManager.ServerCommandTakeItem(0);
                 GameSync.Singleton.Characters.ServerRegisterDNSyncObj(this);
                 _spawned = true;
             }
@@ -328,8 +326,8 @@ namespace MultiFPS.Gameplay {
 
             if (_spawned)
             {
-                CharacterItemManager.SpawnStarterEquipment();
-                CharacterItemManager.ServerCommandTakeItem(0);
+                var playerInstance = GameManager.FindPlayerInstanceByCharacter(this);
+                GameManager.Gamemode.Server_OnPlayerRespawn(playerInstance);
             }
         }
         private void OnClientResurrect(int health)
