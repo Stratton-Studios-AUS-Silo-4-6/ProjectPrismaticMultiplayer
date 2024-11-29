@@ -4,7 +4,7 @@ using UnityEditor.Build.Reporting;
 using UnityEngine;
 using StreamReader = System.IO.StreamReader;
 
-namespace StrattonStudioGames.Prismatic
+namespace StrattonStudioGames.PrisMulti.Editor
 {
     public static class Builder
     {

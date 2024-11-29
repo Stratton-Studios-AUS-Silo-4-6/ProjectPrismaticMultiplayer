@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MultiFPS;
 using UnityEngine;
+using MultiFPS.Gameplay;
+using MultiFPS.Gameplay.Gamemodes;
 
-namespace MultiFPS.Gameplay.Gamemodes
+namespace StrattonStudioGames.PrisMulti
 {
     [AddComponentMenu("MultiFPS/Gamemodes/GunProgression")]
     public class GunProgression : Gamemode
     {
-        public Item[] progression;
+        public GunProgressionConfig config;
 
         public GunProgression()
         {
@@ -17,8 +20,7 @@ namespace MultiFPS.Gameplay.Gamemodes
             FriendyFire = true; //friendly fire must be true because in free for all Deathmatch everyone are in the same team, 
             //so i they want to fight each other, friendy fire must be true
         }
-
-
+        
         public override void PlayerSpawnCharacterRequest(PlayerInstance playerInstance)
         {
             if (LetPlayersSpawnOnTheirOwn)
@@ -48,13 +50,13 @@ namespace MultiFPS.Gameplay.Gamemodes
             var killer = GameManager.FindPlayerInstanceByCharacter(killerID.GetComponent<CharacterInstance>());
             var killCount = killer.Kills;
 
-            if (killer.Kills >= progression.Length)
+            if (killer.Kills >= config.GetMax())
             {
                 SwitchGamemodeState(GamemodeState.Finish);
             }
             else
             {
-                var nextItem = progression[killCount];
+                var nextItem = config.GetItem(killCount);
                 var itemManager = killer.MyCharacter.CharacterItemManager;
                 itemManager.Server_DespawnItem(0);
                 itemManager.Server_SpawnInventory(nextItem);
@@ -68,12 +70,12 @@ namespace MultiFPS.Gameplay.Gamemodes
 
             var kills = playerInstance.Kills;
 
-            if (kills >= progression.Length)
+            if (kills >= config.GetMax())
             {
                 return;
             }
             
-            var item = progression[kills];
+            var item = config.GetItem(kills);
             playerInstance.MyCharacter.CharacterItemManager.Server_SpawnInventory(item);
         }
 
@@ -123,9 +125,9 @@ namespace MultiFPS.Gameplay.Gamemodes
         {
             base.MatchEvent_StartMatch();
 
-            RespawnAllPlayers(defaultSpawnPoints);
             ResetPlayersStats();
             ResetAllPlayerInventories();
+            RespawnAllPlayers(defaultSpawnPoints);
             CountTimer(GameDuration);
             
             GamemodeMessage("Match started!", 3f);
@@ -180,7 +182,7 @@ namespace MultiFPS.Gameplay.Gamemodes
         private void ResetPlayerInventory(PlayerInstance playerInstance)
         {
             var kills = playerInstance.Kills;
-            var item = progression[kills];
+            var item = config.GetItem(kills);
             var characterItemManager = playerInstance.MyCharacter.CharacterItemManager;
             characterItemManager.Server_DespawnAllItems();
             characterItemManager.Server_SpawnInventory(item);
