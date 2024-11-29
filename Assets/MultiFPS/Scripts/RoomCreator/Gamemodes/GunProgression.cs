@@ -47,7 +47,6 @@ namespace MultiFPS.Gameplay.Gamemodes
             
             var killer = GameManager.FindPlayerInstanceByCharacter(killerID.GetComponent<CharacterInstance>());
             var killCount = killer.Kills;
-            var nextItem = progression[killCount];
 
             if (killer.Kills >= progression.Length)
             {
@@ -55,6 +54,7 @@ namespace MultiFPS.Gameplay.Gamemodes
             }
             else
             {
+                var nextItem = progression[killCount];
                 var itemManager = killer.MyCharacter.CharacterItemManager;
                 itemManager.Server_DespawnItem(0);
                 itemManager.Server_SpawnInventory(nextItem);
@@ -65,8 +65,14 @@ namespace MultiFPS.Gameplay.Gamemodes
         {
             if (!isServer)
                 return;
-            
+
             var kills = playerInstance.Kills;
+
+            if (kills >= progression.Length)
+            {
+                return;
+            }
+            
             var item = progression[kills];
             playerInstance.MyCharacter.CharacterItemManager.Server_SpawnInventory(item);
         }
