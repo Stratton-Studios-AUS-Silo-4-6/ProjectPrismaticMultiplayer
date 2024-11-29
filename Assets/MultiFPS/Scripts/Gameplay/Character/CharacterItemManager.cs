@@ -94,6 +94,9 @@ namespace MultiFPS.Gameplay
 
         Item[] _rememberedItems;
 
+        public bool CanGrabItem { get; set; } = true;
+        public bool CanDropItem { get; set; } = true;
+
         private void Awake()
         {
             _rememberedItems = new Item[Slots.Count];
@@ -327,6 +330,11 @@ namespace MultiFPS.Gameplay
             //don't fill slots that are not meant to be filled
             //if (Slots[CurrentlyUsedSlotID].Type == SlotType.BuiltIn) return;
 
+            if (!CanGrabItem)
+            {
+                return;
+            }
+
             RaycastHit hit;
             if (Physics.Raycast(_fppCameraTarget.position, _fppCameraTarget.forward, out hit, 3.5f, GameManager.interactLayerMask))
             {
@@ -342,6 +350,11 @@ namespace MultiFPS.Gameplay
         //launched by client input to drop item
         public void TryDropItem()
         {
+            if (!CanDropItem)
+            {
+                return;
+            }
+            
             CmdDropItem(CurrentlyUsedSlotID);
         }
 
@@ -381,7 +394,15 @@ namespace MultiFPS.Gameplay
         void CmdPickUpItem(NetworkIdentity _itemNetIdentity, int _slotID)
         {
             //do not let dead character pickup weapons
-            if (_characterInstance.Health.CurrentHealth <= 0) return;
+            if (_characterInstance.Health.CurrentHealth <= 0)
+            {
+                return;
+            }
+            
+            if (!CanGrabItem)
+            {
+                return;
+            }
 
             AttachItemToCharacter(_itemNetIdentity.GetComponent<Item>(), _slotID);
         }
@@ -531,6 +552,11 @@ namespace MultiFPS.Gameplay
         [Command]
         void CmdDropItem(int slotIDtoDrop)
         {
+            if (!CanDropItem)
+            {
+                return;
+            }
+            
             Item itemToDrop = Slots[slotIDtoDrop].Item;
 
             if (!itemToDrop) return;
@@ -566,6 +592,11 @@ namespace MultiFPS.Gameplay
         /// </summary>
         void Drop(int slotIDtoDrop)
         {
+            if (!CanDropItem)
+            {
+                return;
+            }
+            
             Slot slotToEmpty = Slots[slotIDtoDrop];
 
             if (slotToEmpty.Item)

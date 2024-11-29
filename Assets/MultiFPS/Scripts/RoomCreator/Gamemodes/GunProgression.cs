@@ -34,6 +34,10 @@ namespace MultiFPS.Gameplay.Gamemodes
 
             AssignPlayerToTeam(player, 0);
             ResetPlayerInventory(player);
+
+            var characterItemManager = player.MyCharacter.CharacterItemManager;
+            characterItemManager.CanGrabItem = false;
+            characterItemManager.CanDropItem = false;
         }
 
         public override void Server_OnPlayerKilled(Health victimID, Health killerID)
