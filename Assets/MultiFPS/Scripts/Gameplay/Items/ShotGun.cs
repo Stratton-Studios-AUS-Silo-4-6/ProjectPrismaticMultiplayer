@@ -217,7 +217,11 @@ namespace MultiFPS.Gameplay
 
                 while (Server_CurrentAmmoSupply > 0 && Server_CurrentAmmo < MagazineCapacity && !(_cancelReload && Server_CurrentAmmo>0))
                 {
-                    Server_CurrentAmmoSupply--;
+                    if (Server_CurrentAmmoSupply < int.MaxValue)
+                    {
+                        Server_CurrentAmmoSupply--;
+                    }
+                    
                     Server_CurrentAmmo++;
 
                     if (MyOwner.BOT && MyOwner.ReadActionKeyCode(ActionCodes.Trigger1))
@@ -242,12 +246,6 @@ namespace MultiFPS.Gameplay
         void CmdCancelReload() 
         {
             _cancelReload = true;
-        }
-
-        public override void Take()
-        {
-            base.Take();
-            UpdateAmmoInHud(CurrentAmmo.ToString(), CurrentAmmoSupply.ToString());
         }
     }
 }

@@ -779,11 +779,15 @@ namespace MultiFPS.Gameplay
 
         protected void UpdateAmmoInHud(string ammo, string supply = null)
         {
-            //print("Ammo: {ammo}")
             if (MyOwner && MyOwner.IsObserved && _currentlyInUse)
             {
                 UICharacter._instance.OnAmmoStateChanged(ammo, supply);
             }
+        }
+
+        public void RefreshAmmoDisplay()
+        {
+            OnCurrentAmmoChanged();
         }
 
         void RenderItem(ItemRenderType type)
@@ -879,9 +883,12 @@ namespace MultiFPS.Gameplay
             CurrentAmmo = currentAmmo;
             OnCurrentAmmoChanged();
         }
-        protected virtual void OnCurrentAmmoChanged() 
+        protected virtual void OnCurrentAmmoChanged()
         {
-
+            CurrentAmmo = Server_CurrentAmmo;
+            CurrentAmmoSupply = Server_CurrentAmmoSupply;
+            var totalAmountLabel = CurrentAmmoSupply == int.MaxValue ? "-" : CurrentAmmoSupply.ToString();
+            UpdateAmmoInHud(CurrentAmmo.ToString(), totalAmountLabel);
         }
 
         [ClientRpc]

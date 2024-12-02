@@ -483,6 +483,7 @@ namespace MultiFPS.Gameplay
             ClientFrontend.SetObservedCharacter(character);
 
             PlayerGameplayInput.Instance.AssignCharacterToBeControlledByPlayer(character);
+            character.CharacterItemManager.CurrentlyUsedItem.RefreshAmmoDisplay();
         }
 
         //launched by UI

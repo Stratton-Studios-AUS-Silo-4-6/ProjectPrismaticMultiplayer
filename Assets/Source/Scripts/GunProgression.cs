@@ -60,6 +60,10 @@ namespace StrattonStudioGames.PrisMulti
                 var itemManager = killer.MyCharacter.CharacterItemManager;
                 itemManager.Server_DespawnItem(0);
                 itemManager.Server_SpawnInventory(nextItem);
+                
+                var itemInstance =itemManager.Slots[0].Item; 
+                itemInstance.Server_CurrentAmmoSupply = int.MaxValue;
+                itemInstance.RefreshAmmoDisplay();
             }
         }
 
@@ -76,7 +80,12 @@ namespace StrattonStudioGames.PrisMulti
             }
             
             var item = config.GetItem(kills);
-            playerInstance.MyCharacter.CharacterItemManager.Server_SpawnInventory(item);
+            var itemManager = playerInstance.MyCharacter.CharacterItemManager;
+            itemManager.Server_SpawnInventory(item);
+            
+            var itemInstance = itemManager.Slots[0].Item; 
+            itemInstance.Server_CurrentAmmoSupply = int.MaxValue;
+            itemInstance.RefreshAmmoDisplay();
         }
 
         public override void Server_OnPlayerDied(PlayerInstance playerInstance)

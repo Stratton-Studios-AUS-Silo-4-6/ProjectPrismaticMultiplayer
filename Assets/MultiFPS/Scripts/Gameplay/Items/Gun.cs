@@ -87,7 +87,8 @@ namespace MultiFPS.Gameplay
         {
             base.Take();
             _firePoint = MyOwner.characterFirePoint;
-            UpdateAmmoInHud(CurrentAmmo.ToString(), CurrentAmmoSupply.ToString());
+
+            OnCurrentAmmoChanged();
 
             //if previous weapons was scoping then we want to reset visual side of that for newly taken item
             if (MyOwner.FPP)
@@ -285,7 +286,11 @@ namespace MultiFPS.Gameplay
                 int neededAmmo = MagazineCapacity - Server_CurrentAmmo;
                 int finalMagazine;
 
-                if (neededAmmo > Server_CurrentAmmoSupply)
+                if (Server_CurrentAmmoSupply == int.MaxValue)
+                {
+                    finalMagazine = MagazineCapacity; // consider this to have infinite ammo
+                }
+                else if (neededAmmo > Server_CurrentAmmoSupply)
                 {
                     finalMagazine = Server_CurrentAmmo + Server_CurrentAmmoSupply;
                     Server_CurrentAmmoSupply = 0;
@@ -295,6 +300,7 @@ namespace MultiFPS.Gameplay
                     finalMagazine = MagazineCapacity;
                     Server_CurrentAmmoSupply -= neededAmmo;
                 }
+                
                 Server_CurrentAmmo = finalMagazine;
                 SendAmmoDataToClient(Server_CurrentAmmo, Server_CurrentAmmoSupply);
 
@@ -472,11 +478,5 @@ namespace MultiFPS.Gameplay
                 SpawnImpact(info.PenetrationPositions[i], info.FirstHitRotation, info.PenetratedObjectMaterialsIDs[i]);
             }
         }
-
-        protected override void OnCurrentAmmoChanged()
-        {
-            UpdateAmmoInHud(CurrentAmmo.ToString(), CurrentAmmoSupply.ToString());
-        }
     }
- 
 }
