@@ -95,7 +95,19 @@ namespace MultiFPS.UI {
             // note that renaming either of the two scenes will cause this check to fail
             // originally, this checked the build index and would only return true if we're at the first scene,
             // which caused errors when trying to enter play mode via the editor
-            ClientFrontend.Hub = activeScene.name == "hub" || activeScene.name == "hub_serverList";
+
+            switch (activeScene.name)
+            {
+                case "hub":
+                case "hub_serverList":
+                case "MainMenu":
+                    ClientFrontend.Hub = true;
+                    break;
+                default:
+                    ClientFrontend.Hub = false;
+                    break;
+            }
+            
             ClientFrontend.ShowCursor(ClientFrontend.Hub);
             ClientFrontend.SetClientTeam(-1);
 
