@@ -1,7 +1,7 @@
-﻿using DNServerList;
-using MultiFPS;
+﻿using MultiFPS;
 using MultiFPS.Gameplay.Gamemodes;
 using MultiFPS.ServerList;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +14,8 @@ namespace StrattonStudioGames.PrisMulti
         [SerializeField] private Button findMatchButton;
         [SerializeField] private ToggleGroup toggleGroup;
         [SerializeField] private GameSettingsSO gameSettings;
+        [SerializeField] private TextMeshProUGUI mapNameLabel;
+        [SerializeField] private TextMeshProUGUI gamemodeLabel;
 
         private MapRepresenter selectedMap;
         private Gamemodes? selectedGamemode;
@@ -24,6 +26,8 @@ namespace StrattonStudioGames.PrisMulti
         {
             ValidateRequest();
             mapPreview.color = Color.clear;
+            gamemodeLabel.text = string.Empty;
+            mapNameLabel.text = string.Empty;
         }
 
         private void OnEnable()
@@ -46,11 +50,13 @@ namespace StrattonStudioGames.PrisMulti
             {
                 mapPreview.sprite = mapRepresenter.Icon;
                 mapPreview.color = Color.white;
+                mapNameLabel.text = mapRepresenter.Name;
             }
             else
             {
                 mapPreview.sprite = null;
                 mapPreview.color = Color.clear;
+                mapNameLabel.text = string.Empty;
             }
 
             ValidateRequest();
@@ -60,11 +66,14 @@ namespace StrattonStudioGames.PrisMulti
         {
             if (index.HasValue)
             {
-                selectedGamemode = selectedMap.AvailableGamemodes[index.Value];
+                var gamemode = selectedMap.AvailableGamemodes[index.Value];
+                selectedGamemode = gamemode;
+                gamemodeLabel.text = gamemode.ToString();
             }
             else
             {
                 selectedGamemode = null;
+                gamemodeLabel.text = string.Empty;
             }
             
             ValidateRequest();

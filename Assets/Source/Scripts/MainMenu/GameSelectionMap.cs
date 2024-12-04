@@ -12,6 +12,8 @@ namespace StrattonStudioGames.PrisMulti
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private RectTransform rectTransform;
         [SerializeField] private GameSelectionPanel gameSelectionPanel;
+        [SerializeField] private float minimizedHeight = 50;
+        [SerializeField] private float expandedHeight = 100;
         
         [Header("Asset references")]
         [SerializeField] private MapRepresenter mapData;
@@ -57,7 +59,10 @@ namespace StrattonStudioGames.PrisMulti
                 var index = transform.GetSiblingIndex();
                 gameSelectionPanel.SelectMap(mapData);
                 
-                rectTransform.sizeDelta += new Vector2(0, 60);
+                var rectSize = rectTransform.sizeDelta;
+                rectSize.y = expandedHeight;
+                rectTransform.sizeDelta = rectSize;
+                
                 canvasGroup.alpha = 1;
                 canvasGroup.interactable = true;
                 canvasGroup.blocksRaycasts = true;
@@ -66,7 +71,10 @@ namespace StrattonStudioGames.PrisMulti
             {
                 gameSelectionPanel.SelectMap(null);
                 
-                rectTransform.sizeDelta -= new Vector2(0, 60);
+                var rectSize = rectTransform.sizeDelta;
+                rectSize.y = minimizedHeight;
+                rectTransform.sizeDelta = rectSize;
+                
                 canvasGroup.alpha = 0;
                 canvasGroup.interactable = false;
                 canvasGroup.blocksRaycasts = false;
