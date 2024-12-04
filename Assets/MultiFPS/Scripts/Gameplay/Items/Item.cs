@@ -787,6 +787,8 @@ namespace MultiFPS.Gameplay
 
         public void RefreshAmmoDisplay()
         {
+            CurrentAmmo = Server_CurrentAmmo;
+            CurrentAmmoSupply = Server_CurrentAmmoSupply;
             OnCurrentAmmoChanged();
         }
 
@@ -885,8 +887,6 @@ namespace MultiFPS.Gameplay
         }
         protected virtual void OnCurrentAmmoChanged()
         {
-            CurrentAmmo = Server_CurrentAmmo;
-            CurrentAmmoSupply = Server_CurrentAmmoSupply;
             var totalAmountLabel = CurrentAmmoSupply == int.MaxValue ? "-" : CurrentAmmoSupply.ToString();
             UpdateAmmoInHud(CurrentAmmo.ToString(), totalAmountLabel);
         }

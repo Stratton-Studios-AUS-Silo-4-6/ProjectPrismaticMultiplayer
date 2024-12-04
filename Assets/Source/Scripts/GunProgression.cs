@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Mirror;
 using MultiFPS;
 using UnityEngine;
 using MultiFPS.Gameplay;
@@ -48,7 +49,6 @@ namespace StrattonStudioGames.PrisMulti
                 return;
             
             var killer = GameManager.FindPlayerInstanceByCharacter(killerID.GetComponent<CharacterInstance>());
-            var killCount = killer.Kills;
 
             if (killer.Kills >= config.GetMax())
             {
@@ -56,14 +56,8 @@ namespace StrattonStudioGames.PrisMulti
             }
             else
             {
-                var nextItem = config.GetItem(killCount);
-                var itemManager = killer.MyCharacter.CharacterItemManager;
-                itemManager.Server_DespawnItem(0);
-                itemManager.Server_SpawnInventory(nextItem);
-                
-                var itemInstance =itemManager.Slots[0].Item; 
-                itemInstance.Server_CurrentAmmoSupply = int.MaxValue;
-                itemInstance.RefreshAmmoDisplay();
+                killer.MyCharacter.CharacterItemManager.Server_DespawnItem(0);
+                SpawnProgressItem(killer);
             }
         }
 
@@ -79,13 +73,7 @@ namespace StrattonStudioGames.PrisMulti
                 return;
             }
             
-            var item = config.GetItem(kills);
-            var itemManager = playerInstance.MyCharacter.CharacterItemManager;
-            itemManager.Server_SpawnInventory(item);
-            
-            var itemInstance = itemManager.Slots[0].Item; 
-            itemInstance.Server_CurrentAmmoSupply = int.MaxValue;
-            itemInstance.RefreshAmmoDisplay();
+            SpawnProgressItem(playerInstance);
         }
 
         public override void Server_OnPlayerDied(PlayerInstance playerInstance)
@@ -190,11 +178,20 @@ namespace StrattonStudioGames.PrisMulti
 
         private void ResetPlayerInventory(PlayerInstance playerInstance)
         {
-            var kills = playerInstance.Kills;
-            var item = config.GetItem(kills);
             var characterItemManager = playerInstance.MyCharacter.CharacterItemManager;
             characterItemManager.Server_DespawnAllItems();
-            characterItemManager.Server_SpawnInventory(item);
+            SpawnProgressItem(playerInstance);
+        }
+
+        private void SpawnProgressItem(PlayerInstance playerInstance)
+        {
+            var kills = playerInstance.Kills;
+            var prefab = config.GetItem(kills);
+            var instance = Instantiate(prefab);
+            instance.Server_CurrentAmmoSupply = int.MaxValue;
+            instance.RefreshAmmoDisplay();
+            NetworkServer.Spawn(instance.gameObject);
+            playerInstance.MyCharacter.CharacterItemManager.AttachItemToCharacter(instance, 0);
         }
     }
 }
