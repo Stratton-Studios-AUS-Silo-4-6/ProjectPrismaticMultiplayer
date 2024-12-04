@@ -80,7 +80,7 @@ namespace StrattonStudioGames.PrisMulti
             RoomSetup.Properties.P_FillEmptySlotsWithBots = true;
             RoomSetup.Properties.P_Gamemode = selectedGamemode.Value;
             RoomSetup.Properties.P_RespawnCooldown = 6f;
-            RoomSetup.Properties.P_GameDuration = gameSettings.GameDurations[^1];
+            RoomSetup.Properties.P_GameDuration = gameSettings.GameDurations[^1] * 60;
 
             var maxPlayers = selectedMap.MaxPlayersPresets[^1];
             RoomSetup.Properties.P_MaxPlayers = maxPlayers; // for gamemode
