@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -36,6 +36,11 @@ namespace StrattonStudioGames.PrisMulti.Editor
             if (report.summary.result == BuildResult.Succeeded)
             {
                 ConfigureServer(directory, finalFilePath);
+                Debug.Log("Build succeeded");
+            }
+            else
+            {
+                Debug.LogError("Build failed");
             }
         }
 
