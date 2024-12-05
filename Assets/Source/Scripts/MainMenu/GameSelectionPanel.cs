@@ -1,5 +1,6 @@
 ﻿using System;
 using DNServerList;
+using Mirror.BouncyCastle.Tls;
 using MultiFPS;
 using MultiFPS.Gameplay.Gamemodes;
 using MultiFPS.ServerList;
@@ -93,14 +94,13 @@ namespace StrattonStudioGames.PrisMulti
             var index = Array.FindIndex(gameSettings.Maps, x => x == selectedMap);
             var gamemode = selectedGamemode.Value;
 
-            var request = new
+            var request = new FindMatchRequest
             {
                 mapID = index,
                 gamemodeID = (int) gamemode,
                 gameDuration = gameSettings.GameDurations.Length - 1,
                 maxPlayers = selectedMap.MaxPlayersPresets.Length -1,
                 spawnBots = 1, // todo: no bots
-                serverName = $"{selectedMap.Name}.{gamemode.ToString()}", // todo: multiple instance of same room
             };
             
             matchmaker.ConnectToDomain(request);
@@ -130,6 +130,16 @@ namespace StrattonStudioGames.PrisMulti
             var isValid = selectedMap && selectedGamemode != null;
             findMatchButton.interactable = isValid;
             playWithBotsButton.interactable = isValid;
+        }
+
+        private struct FindMatchRequest
+        {
+            public int mapID;
+            public int gamemodeID;
+            public int gameDuration;
+            public int maxPlayers;
+            public int spawnBots;
+            public string serverName;
         }
     }
 }
