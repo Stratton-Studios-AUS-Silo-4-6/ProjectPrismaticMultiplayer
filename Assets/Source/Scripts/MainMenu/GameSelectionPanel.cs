@@ -1,4 +1,6 @@
-﻿using MultiFPS;
+﻿using System;
+using DNServerList;
+using MultiFPS;
 using MultiFPS.Gameplay.Gamemodes;
 using MultiFPS.ServerList;
 using TMPro;
@@ -12,10 +14,12 @@ namespace StrattonStudioGames.PrisMulti
         [Header("References")]
         [SerializeField] private Image mapPreview;
         [SerializeField] private Button findMatchButton;
+        [SerializeField] private Button playWithBotsButton;
         [SerializeField] private ToggleGroup toggleGroup;
         [SerializeField] private GameSettingsSO gameSettings;
         [SerializeField] private TextMeshProUGUI mapNameLabel;
         [SerializeField] private TextMeshProUGUI gamemodeLabel;
+        [SerializeField] private Matchmaker matchmaker;
 
         private MapRepresenter selectedMap;
         private Gamemodes? selectedGamemode;
@@ -24,20 +28,22 @@ namespace StrattonStudioGames.PrisMulti
 
         private void Start()
         {
-            ValidateRequest();
             mapPreview.color = Color.clear;
             gamemodeLabel.text = string.Empty;
             mapNameLabel.text = string.Empty;
+            ValidateRequest();
         }
 
         private void OnEnable()
         {
             findMatchButton.onClick.AddListener(FindMatch);
+            playWithBotsButton.onClick.AddListener(PlayWithBots);
         }
 
         private void OnDisable()
         {
             findMatchButton.onClick.RemoveListener(FindMatch);
+            playWithBotsButton.onClick.RemoveListener(PlayWithBots);
         }
 
         #endregion
@@ -82,7 +88,29 @@ namespace StrattonStudioGames.PrisMulti
         public void FindMatch()
         {
             findMatchButton.interactable = false;
+            playWithBotsButton.interactable = false;
 
+            var index = Array.FindIndex(gameSettings.Maps, x => x == selectedMap);
+            var gamemode = selectedGamemode.Value;
+
+            var request = new
+            {
+                mapID = index,
+                gamemodeID = (int) gamemode,
+                gameDuration = gameSettings.GameDurations.Length - 1,
+                maxPlayers = selectedMap.MaxPlayersPresets.Length -1,
+                spawnBots = 1, // todo: no bots
+                serverName = $"{selectedMap.Name}.{gamemode.ToString()}", // todo: multiple instance of same room
+            };
+            
+            matchmaker.ConnectToDomain(request);
+        }
+
+        public void PlayWithBots()
+        {
+            findMatchButton.interactable = false;
+            playWithBotsButton.interactable = false;
+            
             var networkManager = DNNetworkManager.Instance;
             
             networkManager.onlineScene =  selectedMap.Scene;
@@ -99,8 +127,9 @@ namespace StrattonStudioGames.PrisMulti
 
         private void ValidateRequest()
         {
-            var isValid = selectedMap != null && selectedGamemode != null;
+            var isValid = selectedMap && selectedGamemode != null;
             findMatchButton.interactable = isValid;
+            playWithBotsButton.interactable = isValid;
         }
     }
 }
