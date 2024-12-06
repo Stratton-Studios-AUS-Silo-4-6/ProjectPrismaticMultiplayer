@@ -14503,6 +14503,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   webRequestManager: {fileID: 1483154390}
+  gameSettings: {fileID: 11400000, guid: b4bb4516383c6a14c8c59bb1a63f89cf, type: 2}
 --- !u!114 &1483154390
 MonoBehaviour:
   m_ObjectHideFlags: 0

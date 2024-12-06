@@ -151,7 +151,7 @@ namespace DNServerList
         public string accessPort;
     }
 
-    struct CreateGameContract
+    public struct CreateGameContract
     {
         public string metadata;
         public bool isPrivate;

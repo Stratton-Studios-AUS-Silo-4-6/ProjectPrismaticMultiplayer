@@ -24,6 +24,7 @@ namespace StrattonStudioGames.PrisMulti
 
         private MapRepresenter selectedMap;
         private Gamemodes? selectedGamemode;
+        private int? gamemodeIndex;
 
         #region MonoBehaviour events
 
@@ -71,6 +72,8 @@ namespace StrattonStudioGames.PrisMulti
 
         public void SelectMode(int? index)
         {
+            gamemodeIndex = index;
+            
             if (index.HasValue)
             {
                 var gamemode = selectedMap.AvailableGamemodes[index.Value];
@@ -92,18 +95,20 @@ namespace StrattonStudioGames.PrisMulti
             playWithBotsButton.interactable = false;
 
             var index = Array.FindIndex(gameSettings.Maps, x => x == selectedMap);
-            var gamemode = selectedGamemode.Value;
 
             var request = new FindMatchRequest
             {
                 mapID = index,
-                gamemodeID = (int) gamemode,
+                gamemodeID = gamemodeIndex.Value,
                 gameDuration = gameSettings.GameDurations.Length - 1,
                 maxPlayers = selectedMap.MaxPlayersPresets.Length -1,
                 spawnBots = 1, // todo: no bots
+                serverName = $"{selectedMap.Name}.{selectedGamemode.Value.ToString()}", // todo: multiple instances of same room
             };
             
-            matchmaker.ConnectToDomain(request);
+            request.Log();
+            
+            matchmaker.FindMatch(request);
         }
 
         public void PlayWithBots()
@@ -131,15 +136,48 @@ namespace StrattonStudioGames.PrisMulti
             findMatchButton.interactable = isValid;
             playWithBotsButton.interactable = isValid;
         }
+    }
+    
+    public struct FindMatchRequest
+    {
+        /// <summary>
+        /// The index of the map respective to its location in <see cref="GameSettingsSO.Maps"/>.
+        /// </summary>
+        public int mapID;
+        
+        /// <summary>
+        /// The index of the <see cref="Gamemodes"/> respective to the current map.
+        /// </summary>
+        public int gamemodeID;
+        
+        /// <summary>
+        /// The index to use in <see cref="GameSettingsSO.GameDurations"/>, which is an integer array
+        /// containing the preset durations in minutes for all maps and gamemodes.
+        /// </summary>
+        /// <remarks>
+        /// Not the actual game duration itself.
+        /// </remarks>
+        public int gameDuration;
+        
+        /// <summary>
+        /// The index to use in <see cref="MapRepresenter.MaxPlayersPresets"/>, which contains the max players amount.
+        /// </summary>
+        /// <remarks>
+        /// Not the actual game duration itself.
+        /// </remarks>
+        public int maxPlayers;
+        public int spawnBots;
+        public string serverName;
 
-        private struct FindMatchRequest
+        public void Log()
         {
-            public int mapID;
-            public int gamemodeID;
-            public int gameDuration;
-            public int maxPlayers;
-            public int spawnBots;
-            public string serverName;
+            var log = $"<color=#00ffff>{serverName}</color>";
+            log += $"\n\t {nameof(mapID)}: {mapID}";
+            log += $"\n\t {nameof(gamemodeID)}: {gamemodeID}";
+            log += $"\n\t {nameof(gameDuration)}: {gameDuration}";
+            log += $"\n\t {nameof(maxPlayers)}: {maxPlayers}";
+            log += $"\n\t {nameof(spawnBots)}: {spawnBots}";
+            Debug.Log(log);
         }
     }
 }

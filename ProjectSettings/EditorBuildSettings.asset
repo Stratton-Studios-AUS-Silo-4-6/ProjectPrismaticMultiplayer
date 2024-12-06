@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/MultiFPS/Scripts/ServerListImplementation/hub_serverList.unity
     guid: 6acb5d3243371164983609e96bc40a0c
   - enabled: 0
+    path: Assets/Source/MainMenu/MainMenu.unity
+    guid: a0c3e7557f5bc5148a410099a2991d96
+  - enabled: 0
     path: Assets/MultiFPS/Levels/hub.unity
     guid: b6a0f0fea4594c74c94a91f887e87e9d
   - enabled: 1
