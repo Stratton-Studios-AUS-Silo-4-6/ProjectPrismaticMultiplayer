@@ -89,11 +89,8 @@ namespace StrattonStudioGames.PrisMulti
             ValidateRequest();
         }
 
-        public void FindMatch()
+        public async void FindMatch()
         {
-            findMatchButton.interactable = false;
-            playWithBotsButton.interactable = false;
-
             var index = Array.FindIndex(gameSettings.Maps, x => x == selectedMap);
 
             var request = new FindMatchRequest
@@ -107,8 +104,15 @@ namespace StrattonStudioGames.PrisMulti
             };
             
             request.Log();
-            
-            matchmaker.FindMatch(request);
+
+            findMatchButton.interactable = false;
+            playWithBotsButton.interactable = false;
+            var hasMatch = await matchmaker.TryFindMatch(request);
+
+            if (!hasMatch)
+            {
+                ValidateRequest();
+            }
         }
 
         public void PlayWithBots()
