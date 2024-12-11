@@ -25,8 +25,7 @@ namespace StrattonStudioGames.PrisMulti
         public async Awaitable<bool> TryFindMatch(FindMatchRequest requestData)
         {
             
-            using var request = UnityWebRequest.Get("http://34.40.151.9:5000/matchmaking/getserverlist");
-            // using var request = UnityWebRequest.Get("http://localhost:5000/matchmaking/getserverlist");
+            using var request = UnityWebRequest.Get(ServerSettings.Config.EndpointGetServerList);
             
             loadingIndicator.SetActive(true);
             label.enabled = false;
@@ -67,8 +66,7 @@ namespace StrattonStudioGames.PrisMulti
             var formJson = JsonUtility.ToJson(form);
             var jsonBytes  = Encoding.UTF8.GetBytes(formJson);
             
-            using var request = UnityWebRequest.PostWwwForm("http://34.40.151.9:5000/matchmaking/createpublicgame", "POST");
-            // using var request = UnityWebRequest.PostWwwForm("http://localhost:5000/matchmaking/createpublicgame", "POST");
+            using var request = UnityWebRequest.PostWwwForm(ServerSettings.Config.EndpointCreateRoom, "POST");
             request.uploadHandler = new UploadHandlerRaw(jsonBytes);
             request.SetRequestHeader("Content-Type", "application/json");
             
