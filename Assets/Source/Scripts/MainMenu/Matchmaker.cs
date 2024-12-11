@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Linq;
 using System.Text;
@@ -49,17 +49,17 @@ namespace StrattonStudioGames.PrisMulti
             }
             else // no lobbies up, make one
             {
-                CreateRoom(request);
+                CreateRoom(requestData);
             }
 
             return true;
         }
 
-        private async void CreateRoom(object findMatchRequest)
+        private async void CreateRoom(object requestData)
         {
             var form = new CreateGameContract
             {
-                metadata = JsonUtility.ToJson(findMatchRequest),
+                metadata = JsonUtility.ToJson(requestData),
                 isPrivate = false,
             };
 
