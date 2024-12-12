@@ -1,71 +1,94 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using System.Text;
 using DNServerList;
 using MultiFPS;
 using MultiFPS.ServerList;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace StrattonStudioGames.PrisMulti
 {
     public class Matchmaker : MonoBehaviour
     {
-        [SerializeField] private WebRequestManager webRequestManager;
         [SerializeField] private GameSettingsSO gameSettings;
-        
-        public void FindMatch(FindMatchRequest request)
+        [SerializeField] private GameObject loadingIndicator;
+        [SerializeField] private TextMeshProUGUI label;
+
+        private void Start()
         {
-            webRequestManager.Get("/getserverlist", OnSuccess, OnError);
+            loadingIndicator.SetActive(false);
+        }
+        
+        public async Awaitable<bool> TryFindMatch(FindMatchRequest requestData)
+        {
+            
+            using var request = UnityWebRequest.Get(ServerSettings.Config.EndpointGetServerList);
+            
+            loadingIndicator.SetActive(true);
+            label.enabled = false;
+            await request.SendWebRequest();
+            label.enabled = true;
+            loadingIndicator.SetActive(false);
 
-            void OnError(string data, int code)
+            if (request.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogError("Could not get server list");
+                Debug.LogError($"Could not connect to lobby. Request result: {request.result.ToString()}");
+                loadingIndicator.SetActive(false);
+                return false;
+            }
+            
+            var allLobbies = JsonUtility.FromJson<Lobbies>(request.downloadHandler.text);
+
+            if (TryGetValidLobby(allLobbies, requestData, out var validLobby))
+            {   
+                var port = Convert.ToUInt16(validLobby.accessPort);
+                Join(allLobbies.address, port);
+            }
+            else // no lobbies up, make one
+            {
+                CreateRoom(requestData);
             }
 
-            void OnSuccess(string data, int code)
-            {
-                var allLobbies = JsonUtility.FromJson<Lobbies>(data);
-
-                if (TryGetValidLobby(allLobbies, request, out var validLobby))
-                {   
-                    var port = Convert.ToUInt16(validLobby.accessPort);
-                    Join(allLobbies.address, port);
-                }
-                else // no lobbies up, make one
-                {
-                    CreateRoom(request);
-                }
-            }
+            return true;
         }
 
-        private void CreateRoom(object findMatchRequest)
+        private async void CreateRoom(object requestData)
         {
             var form = new CreateGameContract
             {
-                metadata = JsonUtility.ToJson(findMatchRequest),
+                metadata = JsonUtility.ToJson(requestData),
                 isPrivate = false,
             };
 
             var formJson = JsonUtility.ToJson(form);
+            var jsonBytes  = Encoding.UTF8.GetBytes(formJson);
+            
+            using var request = UnityWebRequest.PostWwwForm(ServerSettings.Config.EndpointCreateRoom, "POST");
+            request.uploadHandler = new UploadHandlerRaw(jsonBytes);
+            request.SetRequestHeader("Content-Type", "application/json");
+            
+            loadingIndicator.SetActive(true);
+            label.enabled = false;
+            await request.SendWebRequest();
+            loadingIndicator.SetActive(false);
+            label.enabled = true;
 
-            webRequestManager.PostJson("/createpublicgame", formJson, OnSuccess, OnError);
-
-            void OnSuccess(string data, int code)
+            if (request.result != UnityWebRequest.Result.Success)
             {
-                if (code == 202)
-                {
-                    PlayerConnectToRoomRequest connectInfo = JsonUtility.FromJson<PlayerConnectToRoomRequest>(data);
-                    Join(connectInfo.address, connectInfo.port);
-                }
-                else
-                {
-                    Debug.LogError("Could not connect to Lobby.");
-                }
+                Debug.LogError($"Could not connect to lobby. Request result: {request.result.ToString()}");
             }
-
-            void OnError(string data, int code)
+            else if (request.responseCode != 202)
             {
-                Debug.LogError("Could not create Lobby.");
+                Debug.LogError($"Could not connect to lobby. Response code: {request.responseCode}");
+            }
+            else
+            {
+                var data = request.downloadHandler.text;
+                var connectInfo = JsonUtility.FromJson<PlayerConnectToRoomRequest>(data);
+                Join(connectInfo.address, connectInfo.port);
             }
         }
 
@@ -79,8 +102,12 @@ namespace StrattonStudioGames.PrisMulti
                 networkManager.networkAddress = address;
                 networkManager.Action_SetNetworkManagerPort(port);
                 networkManager.StartClient();
+                loadingIndicator.SetActive(false);
+                label.enabled = true;
             }
             
+            loadingIndicator.SetActive(true);
+            label.enabled = false;
             StartCoroutine(Connect());
         }
 
