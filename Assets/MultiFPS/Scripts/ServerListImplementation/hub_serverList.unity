@@ -4728,7 +4728,7 @@ MonoBehaviour:
   _showChangeRegionPanelButton: {fileID: 1165771159}
   _regions:
   - Name: Localhost
-    Domain: http://34.40.151.9:5000
+    Domain: http://localhost:5000
   _regionButtonPrefab: {fileID: 129080129}
   _gridParent: {fileID: 1400108141}
   _errorMessage: {fileID: 112880345}
@@ -18759,11 +18759,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6290211825898679236, guid: e7be98cf306bf1f428d27af5d2318ac2,
-        type: 3}
-      propertyPath: networkAddress
-      value: 34.40.151.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
