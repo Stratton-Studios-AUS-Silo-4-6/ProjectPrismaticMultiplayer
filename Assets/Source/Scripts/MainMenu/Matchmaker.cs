@@ -82,7 +82,7 @@ namespace StrattonStudioGames.PrisMulti
             }
             else if (request.responseCode != 202)
             {
-                Debug.LogError($"Could not connect to lobby. Response code: {request.result.ToString()}");
+                Debug.LogError($"Could not connect to lobby. Response code: {request.responseCode}");
             }
             else
             {
