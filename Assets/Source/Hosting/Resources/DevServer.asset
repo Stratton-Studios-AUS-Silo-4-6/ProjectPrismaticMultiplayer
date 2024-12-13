@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ff3642769446daad1e0d3c4348e34a, type: 3}
   m_Name: DevServer
   m_EditorClassIdentifier: 
-  domain: http://34.40.151.9
+  domain: http://34.116.73.86
   port: 5000
