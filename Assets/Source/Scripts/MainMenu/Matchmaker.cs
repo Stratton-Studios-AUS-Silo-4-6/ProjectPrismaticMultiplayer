@@ -35,7 +35,12 @@ namespace StrattonStudioGames.PrisMulti
 
             if (request.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogError($"Could not connect to lobby. Request result: {request.result.ToString()}");
+                PopupDialog.Show(
+                    $"Error: {request.result.ToString()}",
+                    "Could not connect to host server.",
+                    ("Back", () => { })
+                    );
+                
                 loadingIndicator.SetActive(false);
                 return false;
             }
@@ -78,11 +83,19 @@ namespace StrattonStudioGames.PrisMulti
 
             if (request.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogError($"Could not connect to lobby. Request result: {request.result.ToString()}");
+                PopupDialog.Show(
+                    $"Error: {request.result.ToString()}",
+                    "Could not connect to host server.",
+                    ("Back", () => { })
+                );
             }
             else if (request.responseCode != 202)
             {
-                Debug.LogError($"Could not connect to lobby. Response code: {request.responseCode}");
+                PopupDialog.Show(
+                    $"Error: code {request.responseCode}",
+                    "Could not connect to host server.",
+                    ("Back", () => { })
+                );
             }
             else
             {
