@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Scene: Assets/MultiFPS/Levels/map_range.unity
   Name: Range
-  AvailableGamemodes: ff
+  AvailableGamemodes: ff04
   MaxPlayersPresets: 0200000004000000
   Icon: {fileID: 21300000, guid: c49293fcb11fb4d48937441c6530b29d, type: 3}
