@@ -19,7 +19,9 @@ MonoBehaviour:
     rid: 1917505898371612673
   m_Scenes:
   - m_enabled: 1
-    m_path: Assets/Source/MainMenu/MainMenu.unity
+    m_path: Assets/Source/MainMenu/Login.unity
+  - m_enabled: 1
+    m_path: Assets/Source/MainMenu/Matchmaking.unity
   - m_enabled: 0
     m_path: Assets/MultiFPS/Scripts/ServerListImplementation/hub_serverList.unity
   - m_enabled: 0
@@ -43,7 +45,7 @@ MonoBehaviour:
     - rid: 1917505898371612673
       type: {class: WindowsPlatformSettings, ns: UnityEditor.WindowsStandalone, asm: UnityEditor.WindowsStandalone.Extensions}
       data:
-        m_Development: 0
+        m_Development: 1
         m_ConnectProfiler: 0
         m_BuildWithDeepProfilingSupport: 0
         m_AllowDebugging: 0
