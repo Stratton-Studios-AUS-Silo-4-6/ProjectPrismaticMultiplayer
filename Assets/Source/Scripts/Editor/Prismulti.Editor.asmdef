@@ -2,7 +2,8 @@
     "name": "Prismulti.Editor",
     "rootNamespace": "StrattonStudioGames.PrisMulti.Editor",
     "references": [
-        "GUID:4ef430a4e62a92f44ad6130aba47b337"
+        "GUID:4ef430a4e62a92f44ad6130aba47b337",
+        "GUID:1768a747dade97140887920d2472d31f"
     ],
     "includePlatforms": [
         "Editor"

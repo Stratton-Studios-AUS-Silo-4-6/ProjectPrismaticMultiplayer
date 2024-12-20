@@ -332,7 +332,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   FFA: 1
-  PeacefulBots: 1
+  PeacefulBots: 0
   GameDuration: 300
   WarmupTime: 10
   _teams:

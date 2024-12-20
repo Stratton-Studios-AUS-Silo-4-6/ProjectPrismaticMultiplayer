@@ -41,6 +41,19 @@ namespace PGALegends.UI
             this.container = container;
         }
 
+        /// <param name="entries">
+        /// A collection of already existing entries that we want this ListView instance to track.
+        /// </param>
+        public ListView(T2 prefab, Transform container, T2[] entries)
+        {
+            this.prefab = prefab;
+            this.container = container;
+            foreach (var entry in entries)
+            {
+                this.entries.Add(entry);
+            }
+        }
+
         /// <summary>
         /// Creates a collection of <see cref="T2">entries</see> containing data of type <see cref="T"/>.
         /// </summary>
