@@ -22,18 +22,18 @@ namespace StrattonStudioGames.PrisMulti
 
         public List<T2> Entries => entries;
 
-        public delegate void OnDisplay(int index, T data, T2 display);
-        public delegate void OnHide(int index, T2 display);
+        public delegate void OnAdd(int index, T data, T2 display);
+        public delegate void OnRemove(int index, T2 display);
         
         /// <summary>
-        /// The event delegate invoked when an individual <see cref="T2"/> entry is <see cref="Display(T)">Displayed</see>.
+        /// The event delegate invoked when an individual <see cref="T2"/> entry is <see cref="Add">Displayed</see>.
         /// </summary>
-        public event OnDisplay onDisplay;
+        public event OnAdd onAdd;
         
         /// <summary>
         /// The event delegate invoked when an individual <see cref="T2"/> entry is <see cref="Remove">Removed</see>.
         /// </summary>
-        public event OnHide onHide;
+        public event OnRemove onRemove;
 
         public ListView(T2 prefab, Transform container)
         {
@@ -47,11 +47,11 @@ namespace StrattonStudioGames.PrisMulti
         /// <param name="entryData">
         /// An array of <see cref="T"/> data to be displayed in a collection of <see cref="T2"/> entries.
         /// </param>
-        public void Display(T[] entryData)
+        public void Add(T[] entryData)
         {
             foreach (var data in entryData)
             {
-                Display(data);
+                Add(data);
             }
         }
 
@@ -61,20 +61,20 @@ namespace StrattonStudioGames.PrisMulti
         /// <param name="data">
         /// The data that will be displayed on the created entry.
         /// </param>
-        public void Display(T data)
+        public void Add(T data)
         {
             var entry = Object.Instantiate(prefab, container);
-            entry.Display(data);
+            entry.OnAdd(data);
             entries.Add(entry);
 
             var index = entries.Count - 1;
-            onDisplay?.Invoke(index, data, entry);
+            onAdd?.Invoke(index, data, entry);
         }
 
         public void Remove(int index)
         {
             var entry = entries[index];
-            onHide?.Invoke(index, entry);
+            onRemove?.Invoke(index, entry);
             RemoveInternal(index);
             entries.RemoveAt(index);
         }
@@ -100,7 +100,7 @@ namespace StrattonStudioGames.PrisMulti
         private void RemoveInternal(int index)
         {
             var entry = entries[index];
-            entry.Remove();
+            entry.OnRemove();
             Object.Destroy(entry.gameObject);
         }
     }
