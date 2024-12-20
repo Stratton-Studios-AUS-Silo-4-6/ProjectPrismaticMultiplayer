@@ -1,6 +1,5 @@
 ﻿using System;
-using DNServerList;
-using Mirror.BouncyCastle.Tls;
+using System.Linq;
 using MultiFPS;
 using MultiFPS.Gameplay.Gamemodes;
 using MultiFPS.ServerList;
@@ -22,9 +21,39 @@ namespace StrattonStudioGames.PrisMulti
         [SerializeField] private TextMeshProUGUI gamemodeLabel;
         [SerializeField] private Matchmaker matchmaker;
 
+        [Header("ListView settings")] 
+        [SerializeField] private GameSelectionMap entryPrefab;
+        [SerializeField] private Transform entryContainer;
+
         private MapRepresenter selectedMap;
         private Gamemodes? selectedGamemode;
         private int? gamemodeIndex;
+        private ListView<GameSelectionMap.EntryData, GameSelectionMap> listView;
+
+        #region Public methods
+
+        [ContextMenu(nameof(InitList))]
+        public void InitList()
+        {
+            listView = new ListView<GameSelectionMap.EntryData, GameSelectionMap>(entryPrefab, entryContainer);
+
+            var data = from map in gameSettings.Maps
+                select new GameSelectionMap.EntryData
+                {
+                    selectionPanel = this,
+                    mapData = map,
+                    @group = toggleGroup,
+                };
+            
+            listView.onAdd += (index, data, display) =>
+            {
+                display.InitList();
+            };
+            
+            listView.Add(data.ToArray());
+        }
+
+        #endregion
 
         #region MonoBehaviour events
 
@@ -33,6 +62,7 @@ namespace StrattonStudioGames.PrisMulti
             mapPreview.color = Color.clear;
             gamemodeLabel.text = string.Empty;
             mapNameLabel.text = string.Empty;
+            InitList();
             ValidateRequest();
         }
 

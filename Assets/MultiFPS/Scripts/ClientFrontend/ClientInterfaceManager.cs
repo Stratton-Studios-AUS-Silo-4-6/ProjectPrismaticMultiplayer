@@ -100,7 +100,7 @@ namespace MultiFPS.UI {
             {
                 case "hub":
                 case "hub_serverList":
-                case "MainMenu":
+                case "Matchmaking":
                     ClientFrontend.Hub = true;
                     break;
                 default:

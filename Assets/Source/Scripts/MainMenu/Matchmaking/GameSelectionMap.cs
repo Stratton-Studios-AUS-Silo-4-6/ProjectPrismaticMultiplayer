@@ -1,22 +1,55 @@
-﻿using MultiFPS;
+﻿using System.Linq;
+using MultiFPS;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace StrattonStudioGames.PrisMulti
 {
-    public class GameSelectionMap : MonoBehaviour
+    public class GameSelectionMap : MonoBehaviour, IListViewEntry<GameSelectionMap.EntryData>
     {
         [Header("Scene references")]
+        [SerializeField] private GameSelectionPanel gameSelectionPanel;
+
+        [Header("Prefab references")]
+        [SerializeField] private TextMeshProUGUI label;
         [SerializeField] private Toggle toggle;
         [SerializeField] private ToggleGroup toggleGroup;
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private RectTransform rectTransform;
-        [SerializeField] private GameSelectionPanel gameSelectionPanel;
         [SerializeField] private float minimizedHeight = 50;
         [SerializeField] private float expandedHeight = 100;
         
         [Header("Asset references")]
         [SerializeField] private MapRepresenter mapData;
+
+        [Header("ListView settings")]
+        [SerializeField] private GameSelectionMode entryPrefab;
+        [SerializeField] private Transform entryContainer;
+
+        private ListView<GameSelectionMode.EntryData, GameSelectionMode> listView;
+
+        #region Public methods
+
+        [ContextMenu(nameof(InitList))]
+        public void InitList()
+        {
+            listView = new ListView<GameSelectionMode.EntryData, GameSelectionMode>(entryPrefab, entryContainer);
+
+            var index = 0;
+            var data = from gamemode in mapData.AvailableGamemodes
+                select new GameSelectionMode.EntryData
+                {
+                    gamemode = gamemode,
+                    selectionPanel = gameSelectionPanel,
+                    @group = toggleGroup,
+                    index = index++,
+                };
+            
+            listView.Add(data.ToArray());
+        }
+
+        #endregion
 
         #region Unity hooks
 
@@ -56,7 +89,6 @@ namespace StrattonStudioGames.PrisMulti
         {
             if (isOn)
             {
-                var index = transform.GetSiblingIndex();
                 gameSelectionPanel.SelectMap(mapData);
                 
                 var rectSize = rectTransform.sizeDelta;
@@ -84,6 +116,30 @@ namespace StrattonStudioGames.PrisMulti
                     entry.isOn = false;
                 }
             }
+        }
+
+        #region IListViewEntry implementations
+
+        public void OnAdd(EntryData data)
+        {
+            mapData = data.mapData;
+            label.text = data.mapData.Name;
+            name = data.mapData.Name;
+            gameSelectionPanel = data.selectionPanel;
+            toggle.group = data.group;
+        }
+
+        public void OnRemove()
+        {
+        }
+
+        #endregion
+        
+        public class EntryData
+        {
+            public GameSelectionPanel selectionPanel;
+            public MapRepresenter mapData;
+            public ToggleGroup group;
         }
     }
 }
