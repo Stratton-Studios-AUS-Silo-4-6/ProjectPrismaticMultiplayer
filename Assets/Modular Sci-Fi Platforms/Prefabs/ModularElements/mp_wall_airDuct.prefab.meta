@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 88fadb64ac4dd3e48b2440e720345d11
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 210660
+  packageName: Modular Sci-Fi Platforms
+  packageVersion: 1.0
+  assetPath: Assets/Modular Sci-Fi Platforms/Prefabs/ModularElements/mp_wall_airDuct.prefab
+  uploadId: 477678

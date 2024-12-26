@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: b00dbc3ee40e0c04cafd897524aa4561
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 210660
+  packageName: Modular Sci-Fi Platforms
+  packageVersion: 1.0
+  assetPath: Assets/Modular Sci-Fi Platforms/Prefabs/ModularElements/mp_elevator_rails.prefab
+  uploadId: 477678

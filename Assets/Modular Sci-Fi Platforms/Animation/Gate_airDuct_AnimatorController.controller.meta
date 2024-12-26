@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0a60eaf690f29be46b17c315a5e9fd1b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 210660
+  packageName: Modular Sci-Fi Platforms
+  packageVersion: 1.0
+  assetPath: Assets/Modular Sci-Fi Platforms/Animation/Gate_airDuct_AnimatorController.controller
+  uploadId: 477678
