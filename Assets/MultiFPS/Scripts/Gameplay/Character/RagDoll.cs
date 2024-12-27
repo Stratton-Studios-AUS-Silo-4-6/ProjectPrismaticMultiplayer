@@ -11,6 +11,8 @@ namespace MultiFPS.Gameplay
         [SerializeField] float _ragdollMovementRecoil = 100f;
         [SerializeField] GameObject _headExplosion;
 
+        [SerializeField] private GameObject coin;
+
         //for animation ragdoll on death
         public Rigidbody _head;
         public Rigidbody _footL;
@@ -30,6 +32,7 @@ namespace MultiFPS.Gameplay
         private void Awake()
         {
             GameTools.SetLayerRecursively(gameObject, (int)GameLayers.ragdoll);
+            GameTools.SetLayerRecursively(coin, (int)0);
             EnablePhysics(false);
         }
 
