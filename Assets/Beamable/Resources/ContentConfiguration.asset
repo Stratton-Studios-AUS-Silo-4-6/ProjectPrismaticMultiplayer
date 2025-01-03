@@ -12,4 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14a5b40dc58386f46a327adbbd3aab00, type: 3}
   m_Name: ContentConfiguration
   m_EditorClassIdentifier: 
-  ManifestID: global
+  EnableMultipleContentNamespaces: 0
+  multipleContentNamespacesSettingLocked: 0
+  EditorManifestID: global
+  EditorDownloadBatchSize:
+    HasValue: 0
+    Value: 0
+  EnablePropertyOrderDependenceForContentChecksum: 1
+  EnableLocalContentInEditor: 0
+  LocalContentReferenceDelaySeconds:
+    HasValue: 0
+    Value: 0
+  LocalContentManifestDelaySeconds:
+    HasValue: 0
+    Value: 0
+  _runtimeManifestID: global
+  EnableBakedContentCompression: 1
+  BakeContentOnBuild: 1
+  DisableContentDownloadExceptions: 0

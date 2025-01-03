@@ -13,3 +13,30 @@ MonoBehaviour:
   m_Name: SessionConfiguration
   m_EditorClassIdentifier: 
   CustomParameterProvider: {fileID: 0}
+  DeviceOptions:
+    ClientVersion:
+      UserEnabled: 1
+    DeviceMemoryOnBoard:
+      UserEnabled: 0
+    GfxDeviceId:
+      UserEnabled: 0
+    GfxDeviceName:
+      UserEnabled: 0
+    GfxVendor:
+      UserEnabled: 0
+    GfxVersion:
+      UserEnabled: 0
+    GfxMemory:
+      UserEnabled: 0
+    GfxShaderLevel:
+      UserEnabled: 0
+    CpuProcessorCount:
+      UserEnabled: 0
+    Idfa:
+      UserEnabled: 0
+    IosDeviceGeneration:
+      UserEnabled: 0
+    IosSystemVersion:
+      UserEnabled: 0
+    Gaid:
+      UserEnabled: 0

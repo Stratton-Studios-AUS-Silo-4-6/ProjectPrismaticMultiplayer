@@ -19,4 +19,16 @@ MonoBehaviour:
     DisableContentRefPropertyDrawers: 0
     DisableBeamableDictionaryPropertyDrawers: 0
     DisableBeamableListPropertyDrawers: 0
-    BeamableDeveloper: 0
+    RunAsBeamableDeveloper: 0
+    DisableBeamableDateStringPropertyDrawers: 0
+    DisableBeamableCidPidWarningsOnBuild: 0
+  AdvancedCli:
+    HasValue: 0
+    Value:
+      UseGlobalCLI: 0
+      UseFromSource:
+        HasValue: 0
+        Value: 
+  CustomPathInclusions:
+    HasValue: 0
+    Value: []
