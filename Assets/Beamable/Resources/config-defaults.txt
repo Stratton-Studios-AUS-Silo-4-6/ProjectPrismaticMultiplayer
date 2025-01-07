@@ -1,0 +1,8 @@
+{
+    "cid": "1825253636246556",
+    "alias": "jef-stratton",
+    "pid": "DE_1825253636246557",
+    "platform": "",
+    "socket": "",
+    "containerPrefix": ""
+}

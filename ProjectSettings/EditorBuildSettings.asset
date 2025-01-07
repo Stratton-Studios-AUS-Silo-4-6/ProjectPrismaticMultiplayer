@@ -29,5 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/MultiFPS/Levels/map_range.unity
     guid: f6bc4cc42d10ddc498ed916fd761add9
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: ce7100db7207114499f865896eaeb308,
+      type: 2}
   m_UseUCBPForAssetBundles: 0
