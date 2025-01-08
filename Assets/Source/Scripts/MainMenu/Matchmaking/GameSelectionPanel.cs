@@ -59,7 +59,7 @@ namespace StrattonStudioGames.PrisMulti
 
         private void Start()
         {
-            mapPreview.color = Color.clear;
+            mapPreview.color = Color.gray;
             gamemodeLabel.text = string.Empty;
             mapNameLabel.text = string.Empty;
             InitList();
@@ -93,7 +93,7 @@ namespace StrattonStudioGames.PrisMulti
             else
             {
                 mapPreview.sprite = null;
-                mapPreview.color = Color.clear;
+                mapPreview.color = Color.gray;
                 mapNameLabel.text = string.Empty;
             }
 
