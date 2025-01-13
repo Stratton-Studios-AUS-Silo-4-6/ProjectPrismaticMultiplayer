@@ -89,6 +89,28 @@ namespace MultiFPS.UI {
 
         void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)
         {
+            var activeScene = SceneManager.GetActiveScene();
+            
+            // check if the current scene is a hub scene 
+            // note that renaming either of the two scenes will cause this check to fail
+            // originally, this checked the build index and would only return true if we're at the first scene,
+            // which caused errors when trying to enter play mode via the editor
+
+            switch (activeScene.name)
+            {
+                case "hub":
+                case "hub_serverList":
+                case "Matchmaking":
+                    ClientFrontend.Hub = true;
+                    break;
+                default:
+                    ClientFrontend.Hub = false;
+                    break;
+            }
+            
+            // ClientFrontend.ShowCursor(ClientFrontend.Hub);
+            ClientFrontend.SetClientTeam(-1);
+            
             //if we loaded non-hub scene, then spawn all the UI prefabs for player, then on disconnecting they will
             //be destroyed by scene unloading
             if (!ClientFrontend.Hub)
