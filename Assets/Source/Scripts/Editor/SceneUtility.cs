@@ -40,5 +40,17 @@ namespace StrattonStudioGames.PrisMulti.Editor
         {
             EditorSceneManager.OpenScene("Assets/MultiFPS/Levels/map_arena.unity");
         }
+        
+        [MenuItem("Scenes/MainMenu/AccountManager")]
+        private static void ToAccountManager()
+        {
+            EditorSceneManager.OpenScene("Assets/Samples/Beamable/2.0.2/AccountManagement/Sample_AccountManager.unity");
+        }
+        
+        [MenuItem("Scenes/MainMenu/InventoryManager")]
+        private static void ToInventoryManager()
+        {
+            EditorSceneManager.OpenScene("Assets/Samples/Beamable/2.0.2/InventoryManagement/Sample_InventoryManager.unity");
+        }
     }
 }

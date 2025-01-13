@@ -44,7 +44,6 @@ namespace StrattonStudioGames.PrisMulti
             var avatarConfig = context.ServiceProvider.GetService<AvatarConfiguration>();
             avatar.color = Color.white;
             avatar.sprite = avatarConfig.Avatars[0].Sprite;
-            Debug.Log($"avatar id: {account.Avatar}");
         }
     }
 }
