@@ -159,7 +159,7 @@ MonoBehaviour:
     type: 3}
   _placeInHandInFPP: 1
   SlotType: 0
-  Firemode: 0
+  Firemode: 2
   CanBeDropped: 1
   TeamOwnership: -1
   AnimatorControllerForCharacter: {fileID: 22100000, guid: 05155d8cf213b3c4ca4d73e24e33df26,
