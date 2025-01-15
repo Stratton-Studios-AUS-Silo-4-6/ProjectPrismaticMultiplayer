@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6bbea0317a2933f4fa3325c84cc4af4d, type: 3}
-  m_Name: representer_map_range
+  m_Name: representer_map_cliffs
   m_EditorClassIdentifier: 
-  Scene: Assets/MultiFPS/Levels/map_range.unity
-  Name: Range
-  AvailableGamemodes: ff
+  Scene: Assets/MultiFPS/Levels/map_cliffs.unity
+  Name: Cliffs
+  AvailableGamemodes: 04
   MaxPlayersPresets: 0200000004000000
   Icon: {fileID: 21300000, guid: c49293fcb11fb4d48937441c6530b29d, type: 3}

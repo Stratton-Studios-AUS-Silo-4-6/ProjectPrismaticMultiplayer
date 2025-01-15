@@ -505,11 +505,40 @@ namespace MultiFPS.Gameplay
 
             if (_coolDownTimer <= Time.time && MyOwner.IsAbleToUseItem && PrimaryFireAvailable())
             {
-                if (Firemode == FireMode.Single && _singleUsed) return;
+                if (Firemode == FireMode.Single && !_singleUsed)
+                {
+                    _singleUsed = true;
+                    _coolDownTimer = Time.time + coolDown;
+                    Use();
+                    
+                    return;
+                }
 
-                _singleUsed = true;
-                _coolDownTimer = Time.time + coolDown;
-                Use();
+                if (Firemode == FireMode.Burst && !_singleUsed)
+                {
+                    _singleUsed = true;
+                    _coolDownTimer = Time.time + coolDown * 6f;
+                    StartCoroutine(BurstRound());
+                    return;
+
+                    IEnumerator BurstRound() // temp 3-round burst
+                    {
+                        
+                        yield return new WaitForSecondsRealtime(coolDown);
+                        Use();
+                        yield return new WaitForSecondsRealtime(coolDown);
+                        Use();
+                        yield return new WaitForSecondsRealtime(coolDown);
+                        Use();
+                    }
+                }
+
+                if (Firemode == FireMode.Automatic)
+                {
+                    _singleUsed = true;
+                    _coolDownTimer = Time.time + coolDown;
+                    Use();
+                }
             }
         }
         public virtual void PushRightTrigger()
@@ -917,6 +946,7 @@ namespace MultiFPS.Gameplay
         {
             Automatic,
             Single,
+            Burst,
         }
     }
 

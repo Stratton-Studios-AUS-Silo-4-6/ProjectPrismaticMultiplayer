@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: GunProgressionData
   m_EditorClassIdentifier: 
   progression:
+  - {fileID: 387672905982019052, guid: a8cda63a8a11b724a9750448b8e1984e, type: 3}
   - {fileID: 2628629563475623988, guid: 7bdb734e7bf66a945b90882e8e1d0450, type: 3}
   - {fileID: 2628629563475623988, guid: 2b7891a0e9a9af64f9a24d632c25eabe, type: 3}
   - {fileID: 4253822348328058072, guid: ebe528956d42fac4695e89c4ee439e5a, type: 3}
