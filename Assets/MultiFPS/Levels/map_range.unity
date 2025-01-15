@@ -679,7 +679,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  ItemPrefab: {fileID: 2628629563475623980, guid: 2b7891a0e9a9af64f9a24d632c25eabe,
+  ItemPrefab: {fileID: 234240867412864732, guid: 7b1ebaedeeb66a44babd45dec6dee8f0,
     type: 3}
 --- !u!114 &522797278
 MonoBehaviour:
@@ -1424,7 +1424,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  ItemPrefab: {fileID: 2628629563475623980, guid: 28a917ed6e215e14196169001d9ecc0b,
+  ItemPrefab: {fileID: 234240867412864732, guid: 18cf6eb7bb862d341aed62f930f82876,
     type: 3}
 --- !u!114 &928091830
 MonoBehaviour:
