@@ -32,13 +32,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6290211825898679232}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6290211825898679236
 MonoBehaviour:
@@ -57,10 +57,9 @@ MonoBehaviour:
   headlessStartMode: 0
   editorAutoStart: 0
   sendRate: 40
-  autoStartServerBuild: 0
-  autoConnectClientBuild: 0
   offlineScene: 
   onlineScene: Assets/MultiFPS/Levels/map_range.unity
+  offlineSceneLoadDelay: 0
   transport: {fileID: 1755931338}
   networkAddress: localhost
   maxConnections: 100
@@ -85,6 +84,8 @@ MonoBehaviour:
   - {fileID: 1553564049242668010, guid: 8c12a565297717b45b9a529640afd645, type: 3}
   - {fileID: 2628629563475623980, guid: e8b758ae53bf9f546b78e3d96a85244a, type: 3}
   - {fileID: 2628629563475623980, guid: 7bdb734e7bf66a945b90882e8e1d0450, type: 3}
+  - {fileID: 234240867412864732, guid: 7b1ebaedeeb66a44babd45dec6dee8f0, type: 3}
+  - {fileID: 234240867412864732, guid: 18cf6eb7bb862d341aed62f930f82876, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
