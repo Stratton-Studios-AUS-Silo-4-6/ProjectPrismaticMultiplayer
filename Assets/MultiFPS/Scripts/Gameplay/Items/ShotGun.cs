@@ -42,7 +42,7 @@ namespace MultiFPS.Gameplay
             }
         }
 
-        protected override void Use()
+        public override void Use()
         {
             if (!MyOwner) return;
 

@@ -1,7 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using MultiFPS.PrisMulti;
 
 namespace MultiFPS.Gameplay
 {
@@ -14,6 +14,7 @@ namespace MultiFPS.Gameplay
         [SerializeField] protected ParticleSystem _huskSpawner_particleSystem;
         [SerializeField] protected AudioClip fireClip;
         [SerializeField] protected AudioClip reloadClip;
+        [SerializeField] private GunFire gunFire;
 
         [Header("Base gun properties")]
         public float ReloadTime = 1.5f;
@@ -119,7 +120,7 @@ namespace MultiFPS.Gameplay
         }
 
         #region shooting
-        protected override void Use()
+        public override void Use()
         {
             if (CurrentAmmo <= 0 || _isReloading || _doingMelee) return;
 
@@ -384,7 +385,17 @@ namespace MultiFPS.Gameplay
         }
         #endregion
 
-        
+        public override void PushLeftTrigger()
+        {
+            if (!gunFire)
+            {
+                base.PushLeftTrigger();
+            }
+            else
+            {                
+                gunFire.Fire(this);
+            }
+        }
 
         /// <summary>
         /// method responsible for dealing damage and penetration

@@ -18,7 +18,7 @@ namespace MultiFPS.Gameplay
 
             ClientChangeCurrentAmmoCount(CurrentAmmoSupply);
         }
-        protected override void Use()
+        public override void Use()
         {
             base.Use();
 

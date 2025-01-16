@@ -505,40 +505,14 @@ namespace MultiFPS.Gameplay
 
             if (_coolDownTimer <= Time.time && MyOwner.IsAbleToUseItem && PrimaryFireAvailable())
             {
-                if (Firemode == FireMode.Single && !_singleUsed)
+                if (Firemode == FireMode.Single && _singleUsed)
                 {
-                    _singleUsed = true;
-                    _coolDownTimer = Time.time + coolDown;
-                    Use();
-                    
                     return;
                 }
-
-                if (Firemode == FireMode.Burst && !_singleUsed)
-                {
-                    _singleUsed = true;
-                    _coolDownTimer = Time.time + coolDown * 6f;
-                    StartCoroutine(BurstRound());
-                    return;
-
-                    IEnumerator BurstRound() // temp 3-round burst
-                    {
-                        
-                        yield return new WaitForSecondsRealtime(coolDown);
-                        Use();
-                        yield return new WaitForSecondsRealtime(coolDown);
-                        Use();
-                        yield return new WaitForSecondsRealtime(coolDown);
-                        Use();
-                    }
-                }
-
-                if (Firemode == FireMode.Automatic)
-                {
-                    _singleUsed = true;
-                    _coolDownTimer = Time.time + coolDown;
-                    Use();
-                }
+                
+                _singleUsed = true;
+                _coolDownTimer = Time.time + coolDown;
+                Use();
             }
         }
         public virtual void PushRightTrigger()
@@ -577,7 +551,7 @@ namespace MultiFPS.Gameplay
         /// If You don't want this functionality override methods "PushLeftTrigger" or "PushRigthTrigger"
         /// They are called each frame client pushes Inputs for firing (or bot ai calls them it this is bot)
         /// </summary>
-        protected virtual void Use()
+        public virtual void Use()
         {
             if (!MyOwner) return;
 
@@ -593,7 +567,7 @@ namespace MultiFPS.Gameplay
             }
         }
         //alternate fire mode for method above
-        protected virtual void SecondaryUse()
+        public virtual void SecondaryUse()
         {
             if (isOwned) 
             {
@@ -946,7 +920,6 @@ namespace MultiFPS.Gameplay
         {
             Automatic,
             Single,
-            Burst,
         }
     }
 
