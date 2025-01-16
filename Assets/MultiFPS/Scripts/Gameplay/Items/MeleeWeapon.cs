@@ -17,13 +17,13 @@ namespace MultiFPS.Gameplay
         [SerializeField] float _secondaryMeleeAttackCooldown = 1f;
         [SerializeField] int _secondaryMeleeDamage = 80;
         [SerializeField] int _backstabDamage = 200;
-        protected override void Use()
+        public override void Use()
         {
             base.Use();
             PushMeele();
         }
 
-        protected override void SecondaryUse()
+        public override void SecondaryUse()
         {
             if (!MyOwner.BOT)
                 SecondaryMelee();

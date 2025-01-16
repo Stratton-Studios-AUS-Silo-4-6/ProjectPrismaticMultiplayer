@@ -12,7 +12,7 @@ namespace MultiFPS.Gameplay
         [SerializeField] GameObject _projectilePrefab;
         [SerializeField] float _projectileRigidbodyForce = 2000f;
 
-        protected override void Use()
+        public override void Use()
         {
 
             if (CurrentAmmo <= 0 || _isReloading || _doingMelee) return;

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2553321504502209248}
   - component: {fileID: 5595373685350744146}
   - component: {fileID: 9083981035332723431}
+  - component: {fileID: -1927830234192712625}
   m_Layer: 0
   m_Name: item_photonRifle
   m_TagString: Untagged
@@ -214,6 +215,7 @@ MonoBehaviour:
   _huskSpawner_particleSystem: {fileID: 2925840954956413921}
   fireClip: {fileID: 8300000, guid: cb920a2a14a87ee43a8fe4d28219ed70, type: 3}
   reloadClip: {fileID: 8300000, guid: 8bbcb26fc5c72e046ba4ce9a8538c7d5, type: 3}
+  gunFire: {fileID: -1927830234192712625}
   ReloadTime: 1.8333334
   _bulletPuncture: 2
   _bulletPrefab: {fileID: 6905933170574764908, guid: 035b74b2a30434e4bace3c53972fde9b,
@@ -320,6 +322,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-1927830234192712625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234240867412864732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f762490320c431aa9530ad49d70635c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interval: 0.1
 --- !u!1 &2554914064523460552
 GameObject:
   m_ObjectHideFlags: 0
@@ -10390,6 +10405,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: rifle2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8988792159913420211, guid: 4cbc1cd4cc996ea4c9f50ecf99a2c3bf,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8988792159913420211, guid: 4cbc1cd4cc996ea4c9f50ecf99a2c3bf,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.2337
+      objectReference: {fileID: 0}
+    - target: {fileID: 8988792159913420211, guid: 4cbc1cd4cc996ea4c9f50ecf99a2c3bf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.014
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
