@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using MultiFPS.Gameplay;
+﻿using System;
 using UnityEngine;
 
 namespace MultiFPS.PrisMulti
@@ -15,41 +14,45 @@ namespace MultiFPS.PrisMulti
         [Tooltip("Amount of shots fired in a single burst.")]
         [SerializeField] private int shots = 3;
 
+        private float interval;
         private float cooldown = 0f;
-        private float Interval => duration / shots;
-        private bool CanShoot => cooldown <= 0f && routine == null;
+        private bool isTriggering;
 
-        private Coroutine routine;
-        
         private void FixedUpdate()
         {
-            if (!CanShoot)
+            if (cooldown > 0f)
             {
                 cooldown -= Time.fixedDeltaTime;
             }
-        }
-
-        public override void Fire(Gun gun)
-        {
-            if (CanShoot)
+            else if (!isTriggering)
             {
-                cooldown = delay;
-                routine = StartCoroutine(Routine());
+                // do nothing
             }
-            
-            return;
-            IEnumerator Routine()
+            else if (shots++ < 3)
             {
                 gun.Use();
-                
-                for (int i = 1; i < shots; i++)
-                {
-                    yield return new WaitForSeconds(Interval);
-                    gun.Use();
-                }
-
-                routine = null;
+                cooldown = interval;
             }
+            else
+            {
+                cooldown = delay;
+                shots = 0;
+            }
+        }
+
+        public override void PressTrigger()
+        {
+            isTriggering = true;
+        }
+
+        public override void ReleaseTrigger()
+        {
+            isTriggering = false;
+        }
+
+        private void Start()
+        {
+            interval = duration / shots;
         }
     }
 }

@@ -99,6 +99,26 @@ namespace MultiFPS.Gameplay
                     if (_input.Player.MeleeAttack.WasPressedThisFrame() && _myCharIntance.CharacterItemManager.CurrentlyUsedItem)
                         _myCharIntance.CharacterItemManager.CurrentlyUsedItem.PushMeele();
 
+                    if (_input.Player.Fire1Hold.WasPressedThisFrame())
+                    {
+                        _myCharIntance.CharacterItemManager.Fire1Press();
+                    }
+
+                    if (_input.Player.Fire1Hold.WasReleasedThisFrame())
+                    {
+                        _myCharIntance.CharacterItemManager.Fire1Release();
+                    }
+
+                    if (_input.Player.Fire2Hold.WasPressedThisFrame())
+                    {
+                        _myCharIntance.CharacterItemManager.Fire2Press();
+                    }
+                    
+                    if (_input.Player.Fire2Hold.WasReleasedThisFrame())
+                    {
+                        _myCharIntance.CharacterItemManager.Fire2Release();
+                    }
+
                     _myCharIntance.SetActionKeyCode(ActionCodes.Sprint, _input.Player.Sprint.ReadValue<float>() > 0);
                     _myCharIntance.SetActionKeyCode(ActionCodes.Crouch, _input.Player.Crouch.ReadValue<float>() > 0);
 

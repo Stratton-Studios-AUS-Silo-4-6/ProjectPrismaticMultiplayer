@@ -499,7 +499,7 @@ namespace MultiFPS.Gameplay
         #endregion
 
         #region item usage
-        public virtual void PushLeftTrigger()
+        public virtual void HoldLeftTrigger()
         {
             if (!MyOwner) return;
 
@@ -515,13 +515,23 @@ namespace MultiFPS.Gameplay
                 Use();
             }
         }
-        public virtual void PushRightTrigger()
+
+        
+        public virtual void HoldRightTrigger()
         {
             if (!MyOwner) return;
 
             if (CooldownSecondary() && SecondaryFireAvailable())
                 SecondaryUse();
         }
+        
+        public virtual void PressLeftTrigger() { }
+
+        public virtual void ReleaseLeftTrigger() { }
+        
+        public virtual void PressRightTrigger() { }
+        public virtual void ReleaseRightTrigger() { }
+        
         protected virtual bool PrimaryFireAvailable() { return true; }
         protected virtual bool SecondaryFireAvailable() { return true; }
 

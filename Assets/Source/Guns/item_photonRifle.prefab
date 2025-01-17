@@ -334,6 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f762490320c431aa9530ad49d70635c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gun: {fileID: 5595373685350744146}
   interval: 0.1
 --- !u!1 &2554914064523460552
 GameObject:

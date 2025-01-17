@@ -211,7 +211,7 @@ namespace MultiFPS.Gameplay
 
             //dont pull trigger if dead
             if (CurrentlyUsedItem && !_characterInstance.Block && _characterInstance.Health.CurrentHealth > 0)
-                CurrentlyUsedItem.PushLeftTrigger();
+                CurrentlyUsedItem.HoldLeftTrigger();
         }
         public void Fire2()
         {
@@ -221,7 +221,39 @@ namespace MultiFPS.Gameplay
             if (isServer && connectionToClient != null && !isOwned) return;
 
             if (!_characterInstance.Block && _characterInstance.Health.CurrentHealth > 0 && CurrentlyUsedItem)
-                CurrentlyUsedItem.PushRightTrigger();
+                CurrentlyUsedItem.HoldRightTrigger();
+        }
+
+        public void Fire1Press()
+        {
+            StartUsingItem();
+
+            if (!_characterInstance.IsClientOrBot()) return;
+            if (isServer && connectionToClient != null && !isOwned) return;
+
+            if (!_characterInstance.Block && _characterInstance.Health.CurrentHealth > 0 && CurrentlyUsedItem)
+                CurrentlyUsedItem.PressLeftTrigger();
+        }
+
+        public void Fire1Release()
+        {
+            StartUsingItem();
+
+            if (!_characterInstance.IsClientOrBot()) return;
+            if (isServer && connectionToClient != null && !isOwned) return;
+
+            if (!_characterInstance.Block && _characterInstance.Health.CurrentHealth > 0 && CurrentlyUsedItem)
+                CurrentlyUsedItem.ReleaseLeftTrigger();
+        }
+
+        public void Fire2Press()
+        {
+            
+        }
+
+        public void Fire2Release()
+        {
+            
         }
         public void Reload() 
         {

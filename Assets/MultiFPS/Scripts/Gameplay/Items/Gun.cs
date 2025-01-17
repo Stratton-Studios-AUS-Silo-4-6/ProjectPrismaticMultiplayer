@@ -385,16 +385,31 @@ namespace MultiFPS.Gameplay
         }
         #endregion
 
-        public override void PushLeftTrigger()
+        public override void HoldLeftTrigger()
         {
-            if (!gunFire)
-            {
-                base.PushLeftTrigger();
-            }
-            else
-            {                
-                gunFire.Fire(this);
-            }
+            if (!MyOwner || gunFire) return;
+
+            base.HoldLeftTrigger();
+        }
+
+        public override void PressLeftTrigger()
+        {
+            if ( !MyOwner
+                || !MyOwner.IsAbleToUseItem 
+                || !PrimaryFireAvailable()
+                || !gunFire)
+                return;
+
+            gunFire.PressTrigger();
+        }
+
+        public override void ReleaseLeftTrigger()
+        {
+            if (!MyOwner
+                || !gunFire)
+                return;
+            
+            gunFire.ReleaseTrigger();
         }
 
         /// <summary>
