@@ -23,6 +23,7 @@ namespace MultiFPS.Gameplay
         protected Coroutine _c_serverReload;
         protected Transform _firePoint;
 
+
         [SerializeField] int _bulletPuncture = 2;
 
         [SerializeField] protected GameObject _bulletPrefab;
@@ -32,6 +33,9 @@ namespace MultiFPS.Gameplay
         ObjectPool _decalPool;
         [SerializeField] protected GameObject _bloodPrefab;
         ObjectPool _bloodPool;
+        
+        public Transform FirePoint => _firePoint;
+        public int Penetration => _bulletPuncture;
 
         protected override void Awake()
         {
@@ -124,30 +128,35 @@ namespace MultiFPS.Gameplay
         {
             if (CurrentAmmo <= 0 || _isReloading || _doingMelee) return;
 
+            var hitscan = FireHitscan();
+            Use(hitscan);
+        }
+
+        public void Use(Hitscan hitscan)
+        {
+            if (CurrentAmmo <= 0 || _isReloading || _doingMelee) return;
+
             base.Use();
             float finalRecoil = CurrentRecoil * MyOwner.RecoilFactor_Movement * _currentRecoilScopeMultiplier;
 
             _firePoint.localRotation = Quaternion.Euler(Random.Range(-finalRecoil, finalRecoil), Random.Range(-finalRecoil, finalRecoil), 0);
 
-            //fire hitscan that will deal damage to hitted enemies and provide info for visuals things, like path of bullet
-            HitscanFireInfo fire = FireHitscan();
-
             if (isOwned)
             {
-                Shoot(fire);
-                CmdShoot(fire);
+                Shoot(hitscan);
+                CmdShoot(hitscan);
             }
             else if (isServer)
             {
                 Server_CurrentAmmo--;
-                RpcShoot(fire);
+                RpcShoot(hitscan);
             }
 
-            ClientChangeCurrentAmmoCount(CurrentAmmo - 1);
+            ClientChangeCurrentAmmoCount(CurrentAmmo - 1);   
         }
 
         [Command]
-        protected void CmdShoot(HitscanFireInfo info)
+        protected void CmdShoot(Hitscan info)
         {
             if (Server_CurrentAmmo > 0)
             {
@@ -156,7 +165,7 @@ namespace MultiFPS.Gameplay
             }
         }
         [ClientRpc(includeOwner = false)]
-        protected void RpcShoot(HitscanFireInfo info)
+        protected void RpcShoot(Hitscan info)
         {
             if (MyOwner)
             {
@@ -168,7 +177,7 @@ namespace MultiFPS.Gameplay
         }
 
         //paper shot, no damage, no game logic, only visuals
-        protected void Shoot(HitscanFireInfo info)
+        protected void Shoot(Hitscan info)
         {
             AddAimRecoild(_recoil_aimCamera_recoil);
 
@@ -385,16 +394,31 @@ namespace MultiFPS.Gameplay
         }
         #endregion
 
-        public override void PushLeftTrigger()
+        public override void HoldLeftTrigger()
         {
-            if (!gunFire)
-            {
-                base.PushLeftTrigger();
-            }
-            else
-            {                
-                gunFire.Fire(this);
-            }
+            if (!MyOwner || gunFire) return;
+
+            base.HoldLeftTrigger();
+        }
+
+        public override void PressLeftTrigger()
+        {
+            if ( !MyOwner
+                || !MyOwner.IsAbleToUseItem 
+                || !PrimaryFireAvailable()
+                || !gunFire)
+                return;
+
+            gunFire.PressTrigger();
+        }
+
+        public override void ReleaseLeftTrigger()
+        {
+            if (!MyOwner
+                || !gunFire)
+                return;
+            
+            gunFire.ReleaseTrigger();
         }
 
         /// <summary>
@@ -402,7 +426,7 @@ namespace MultiFPS.Gameplay
         /// return struct with information about penetration points and materials that were hit in the way
         /// </summary>
         /// <returns></returns>
-        protected HitscanFireInfo FireHitscan() 
+        protected Hitscan FireHitscan() 
         {
             Quaternion hitRotation = Quaternion.identity;
             RaycastHit[] hitScan = GameTools.HitScan(_firePoint, MyOwner.transform, GameManager.fireLayer, 250f);
@@ -465,23 +489,15 @@ namespace MultiFPS.Gameplay
 
 
 
-            return new HitscanFireInfo() {
+            return new Hitscan() {
                 PenetrationPositions = penetrationPositions,
                 PenetratedObjectMaterialsIDs = penetratedObjectMaterialsIDs,
                 FirstHitRotation = hitRotation,
             } ;
         }
 
-        //Information required to render bullets and hit effects
-        protected struct HitscanFireInfo
-        {
-            public Vector3[] PenetrationPositions;
-            public byte[] PenetratedObjectMaterialsIDs;
-            public Quaternion FirstHitRotation;
-        }
-
         //spawn impact and bullet for given hitscan that happened
-        protected void SpawnVisualEffectsForHitscan(HitscanFireInfo info) 
+        protected void SpawnVisualEffectsForHitscan(Hitscan info) 
         {
             SpawnBullet(info.PenetrationPositions, info.FirstHitRotation);
             for (int i = 0; i < info.PenetratedObjectMaterialsIDs.Length; i++)

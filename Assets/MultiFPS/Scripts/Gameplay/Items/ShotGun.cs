@@ -48,7 +48,7 @@ namespace MultiFPS.Gameplay
 
             if (CurrentAmmo <= 0 || _isReloading) return;
 
-            HitscanFireInfo[] hitscans = new HitscanFireInfo[bulletsInOneShoot]; //make raycast, deal damage, etc
+            Hitscan[] hitscans = new Hitscan[bulletsInOneShoot]; //make raycast, deal damage, etc
 
             for (int i = 0; i < bulletsInOneShoot; i++) //single shoot
             {
@@ -85,7 +85,7 @@ namespace MultiFPS.Gameplay
         }
 
         [Command]
-        void CmdMultipleShoot(HitscanFireInfo[] info)
+        void CmdMultipleShoot(Hitscan[] info)
         {
             if (Server_CurrentAmmo > 0)
             {
@@ -97,7 +97,7 @@ namespace MultiFPS.Gameplay
         //dont want to launch this method for client who took a shoot because
         //he already launched it locally
         [ClientRpc(includeOwner = false)]
-        void RpcMultipleShoot(HitscanFireInfo[] info)
+        void RpcMultipleShoot(Hitscan[] info)
         {
             //there can be a situation when client receice a message to use item when it is already dropped, so
             //check if it can be used
@@ -109,7 +109,7 @@ namespace MultiFPS.Gameplay
         /// </summary>
         /// <param name="info"> Information of each bullet, direction, dealt penetration</param>
 
-        protected void MultipleShoot(HitscanFireInfo[] info)
+        protected void MultipleShoot(Hitscan[] info)
         {
             if (MyOwner.FPP)
                 MyOwner.CharacterAnimator.SetTrigger("recoil");

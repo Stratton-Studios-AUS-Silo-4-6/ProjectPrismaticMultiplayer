@@ -499,7 +499,7 @@ namespace MultiFPS.Gameplay
         #endregion
 
         #region item usage
-        public virtual void PushLeftTrigger()
+        public virtual void HoldLeftTrigger()
         {
             if (!MyOwner) return;
 
@@ -515,13 +515,23 @@ namespace MultiFPS.Gameplay
                 Use();
             }
         }
-        public virtual void PushRightTrigger()
+
+        
+        public virtual void HoldRightTrigger()
         {
             if (!MyOwner) return;
 
             if (CooldownSecondary() && SecondaryFireAvailable())
                 SecondaryUse();
         }
+        
+        public virtual void PressLeftTrigger() { }
+
+        public virtual void ReleaseLeftTrigger() { }
+        
+        public virtual void PressRightTrigger() { }
+        public virtual void ReleaseRightTrigger() { }
+        
         protected virtual bool PrimaryFireAvailable() { return true; }
         protected virtual bool SecondaryFireAvailable() { return true; }
 
@@ -712,11 +722,25 @@ namespace MultiFPS.Gameplay
         [Command]
         protected void CmdDamage(byte damagedHealthID, CharacterPart hittedPart, float damagePercentage, AttackType attackType)
         {
+            CmdDamage(damagedHealthID, hittedPart, _damage, damagePercentage, attackType);
+        }
+        
+        /// <summary>
+        /// Exposed overload for <see cref="CmdDamage(byte,MultiFPS.Gameplay.CharacterPart,float,MultiFPS.AttackType)"/> that is caused by an external component.
+        /// </summary>
+        /// <param name="damagedHealthID">ID of the <see cref="Health"/> component to apply damage to.</param>
+        /// <param name="hittedPart">What body part the character takes damage in.</param>
+        /// <param name="damage">Max damage that can be dealt to a target.</param>
+        /// <param name="damagePercentage">The damage percentage actually applied.</param>
+        /// <param name="attackType">The type of attack.</param>
+        [Command]
+        public void CmdDamage(byte damagedHealthID, CharacterPart hittedPart, int damage, float damagePercentage, AttackType attackType)
+        {
             Health victim = GameSync.Singleton.Healths.GetObj(damagedHealthID);
             if (victim == null) return;
 
             if (Server_CurrentAmmo > 0)
-                ServerDamage(victim, hittedPart, damagePercentage, attackType);
+                ServerDamage(victim, hittedPart, damage, damagePercentage, attackType);   
         }
 
         /// <summary>
@@ -724,8 +748,21 @@ namespace MultiFPS.Gameplay
         /// </summary>
         protected void ServerDamage(Health damagedHealth, CharacterPart hittedPart, float damagePercentage, AttackType attackType)
         {
+            ServerDamage(damagedHealth, hittedPart, _damage, damagePercentage, attackType);
+        }
+
+        /// <summary>
+        /// Exposed overload for <see cref="ServerDamage(MultiFPS.Gameplay.Health,MultiFPS.Gameplay.CharacterPart,float,MultiFPS.AttackType)"/> that is caused by an external component. 
+        /// </summary>
+        /// <param name="damagedHealth">The <see cref="Health"/> component to apply damage to.</param>
+        /// <param name="hittedPart">What body part the character takes damage in.</param>
+        /// <param name="damage">Max damage that can be dealt to a target.</param>
+        /// <param name="damagePercentage">The damage percentage actually applied.</param>
+        /// <param name="attackType">The type of attack.</param>
+        public void ServerDamage(Health damagedHealth, CharacterPart hittedPart, int damage, float damagePercentage, AttackType attackType)
+        {
             damagePercentage = Mathf.Clamp(damagePercentage, 0, 1);
-            damagedHealth.Server_ChangeHealthState(Mathf.FloorToInt(_damage * damagePercentage),
+            damagedHealth.Server_ChangeHealthState(Mathf.FloorToInt(damage * damagePercentage),
                 hittedPart, attackType, MyOwner.Health, AttackForce);
         }
         #endregion

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2553321504502209248}
   - component: {fileID: 5595373685350744146}
   - component: {fileID: 9083981035332723431}
-  - component: {fileID: -1927830234192712625}
+  - component: {fileID: -6070326145481376911}
   m_Layer: 0
   m_Name: item_photonRifle
   m_TagString: Untagged
@@ -215,7 +215,7 @@ MonoBehaviour:
   _huskSpawner_particleSystem: {fileID: 2925840954956413921}
   fireClip: {fileID: 8300000, guid: cb920a2a14a87ee43a8fe4d28219ed70, type: 3}
   reloadClip: {fileID: 8300000, guid: 8bbcb26fc5c72e046ba4ce9a8538c7d5, type: 3}
-  gunFire: {fileID: -1927830234192712625}
+  gunFire: {fileID: -6070326145481376911}
   ReloadTime: 1.8333334
   _bulletPuncture: 2
   _bulletPrefab: {fileID: 6905933170574764908, guid: 035b74b2a30434e4bace3c53972fde9b,
@@ -322,7 +322,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &-1927830234192712625
+--- !u!114 &-6070326145481376911
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -331,10 +331,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 234240867412864732}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f762490320c431aa9530ad49d70635c, type: 3}
+  m_Script: {fileID: 11500000, guid: 197eb94242fd404ebdadd97e4c645cb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interval: 0.1
+  gun: {fileID: 5595373685350744146}
+  fireOnMax: 1
+  damageScaling:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 100
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &2554914064523460552
 GameObject:
   m_ObjectHideFlags: 0

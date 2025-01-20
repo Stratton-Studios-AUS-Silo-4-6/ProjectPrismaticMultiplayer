@@ -1,5 +1,4 @@
-﻿using MultiFPS.Gameplay;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace MultiFPS.PrisMulti
 {
@@ -9,26 +8,31 @@ namespace MultiFPS.PrisMulti
         [SerializeField] private float interval = .1f;
 
         private float cooldown = 0f;
-        private bool CanShoot => cooldown <= 0f;
+        private bool CanFire => cooldown <= 0f;
+
+        private bool isTriggering;
 
         private void FixedUpdate()
         {
-            if (!CanShoot)
+            if (cooldown > 0f)
             {
                 cooldown -= Time.fixedDeltaTime;
             }
+            else if (isTriggering)
+            {
+                gun.Use();
+                cooldown = interval;
+            }
         }
 
-        public override void Fire(Gun gun)
+        public override void PressTrigger()
         {
-            if (!CanShoot)
-            {
-                return;
-            }
-            
-            cooldown = interval;
-            
-            gun.Use();
+            isTriggering = true;
+        }
+
+        public override void ReleaseTrigger()
+        {
+            isTriggering = false;
         }
     }
 }
