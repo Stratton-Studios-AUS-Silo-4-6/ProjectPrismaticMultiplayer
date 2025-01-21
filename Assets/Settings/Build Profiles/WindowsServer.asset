@@ -32,6 +32,10 @@ MonoBehaviour:
     m_path: Assets/MultiFPS/Levels/map_construction.unity
   - m_enabled: 1
     m_path: Assets/MultiFPS/Levels/map_range.unity
+  - m_enabled: 1
+    m_path: Assets/MultiFPS/Levels/map_cliffs.unity
+  - m_enabled: 1
+    m_path: Assets/Samples/Beamable/2.0.2/AccountManagement/Sample_AccountManager.unity
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:
     m_Settings: []

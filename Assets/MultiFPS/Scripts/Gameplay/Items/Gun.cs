@@ -442,7 +442,7 @@ namespace MultiFPS.Gameplay
         public override void ReleaseRightTrigger()
         {
             if (!MyOwner
-                || !gunFire)
+                || !secondaryFire)
                 return;
             
             secondaryFire.ReleaseTrigger();

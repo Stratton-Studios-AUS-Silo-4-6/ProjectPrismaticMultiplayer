@@ -26,16 +26,17 @@ namespace MultiFPS
 
         public override void Awake()
         {
+            if (Instance)
+            {
+                Debug.LogError("Fatal error, two instances of DNNetworkManager. Removing newest one.");
+                Destroy(gameObject);
+                return;
+            }
+            
             base.Awake();
             Debug.Log("MultiFPS | desNetware.net | discord.gg/REnFR3wXNY");
 
             headlessStartMode = HeadlessStartOptions.DoNothing;
-
-            if (Instance)
-            {
-                Debug.LogError("Fatal error, two instances of DNNetworkManager");
-                Destroy(Instance.gameObject);
-            }
 
             Instance = this;
 

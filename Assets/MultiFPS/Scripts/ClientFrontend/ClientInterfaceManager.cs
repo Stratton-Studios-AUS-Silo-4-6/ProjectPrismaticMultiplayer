@@ -103,6 +103,12 @@ namespace MultiFPS.UI {
                 case "Matchmaking":
                     ClientFrontend.Hub = true;
                     break;
+                case "Sample_AccountManager":
+                    ClientFrontend.Hub = true;
+                    break;
+                case "Sample_InventoryManager":
+                    ClientFrontend.Hub = true;
+                    break;
                 default:
                     ClientFrontend.Hub = false;
                     break;
