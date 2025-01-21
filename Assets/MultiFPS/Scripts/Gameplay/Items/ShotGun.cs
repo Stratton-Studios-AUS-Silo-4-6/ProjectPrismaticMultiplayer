@@ -53,7 +53,7 @@ namespace MultiFPS.Gameplay
             for (int i = 0; i < bulletsInOneShoot; i++) //single shoot
             {
                 RandomRecoil();
-                hitscans.SetValue(FireHitscan(), i);
+                hitscans.SetValue(Hitscan.Fire(this, _damage), i);
             }
 
             if (isOwned)

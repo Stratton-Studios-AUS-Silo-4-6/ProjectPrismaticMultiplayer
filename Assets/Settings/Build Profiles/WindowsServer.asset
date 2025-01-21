@@ -21,8 +21,6 @@ MonoBehaviour:
   - m_enabled: 1
     m_path: Assets/MultiFPS/Scripts/ServerListImplementation/hub_serverList.unity
   - m_enabled: 0
-    m_path: Assets/Source/MainMenu/MainMenu.unity
-  - m_enabled: 0
     m_path: Assets/MultiFPS/Levels/hub.unity
   - m_enabled: 1
     m_path: Assets/MultiFPS/Levels/map_arena.unity

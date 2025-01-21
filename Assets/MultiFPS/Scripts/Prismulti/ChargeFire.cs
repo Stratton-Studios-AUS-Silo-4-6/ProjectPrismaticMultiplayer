@@ -1,10 +1,12 @@
 ﻿using System;
+using MultiFPS.Gameplay;
 using UnityEngine;
 
 namespace MultiFPS.PrisMulti
 {
     public class ChargeFire : GunFire
     {
+        [SerializeField] private int penetration = 2;
         [SerializeField] private bool fireOnMax;
         [SerializeField] private AnimationCurve damageScaling = AnimationCurve.Linear(0f, 0f, 1f, 1f);
 
@@ -43,7 +45,7 @@ namespace MultiFPS.PrisMulti
             isCharging = false;
             var charge = maxTime - elapsed;
             var damage = (int)damageScaling.Evaluate(charge);
-            var hitscan = FireHitscan(damage);
+            var hitscan = Hitscan.Fire(gun, damage);
             gun.Use(hitscan);
             
             elapsed = 0f;

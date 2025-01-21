@@ -277,6 +277,11 @@ namespace MultiFPS.Gameplay
             if (!MyOwner.ReadActionKeyCode(ActionCodes.Trigger1))
                 _singleUsed = false;
 
+            ViewScope();
+        }
+
+        public void ViewScope()
+        {
             _isScoping = (MyOwner.ReadActionKeyCode(ActionCodes.Trigger2) && _currentlyInUse && !_isReloading && !_doingMelee);
 
             //visual part of scope (camera fov change and animating weapon position change), only for fpp perspective
