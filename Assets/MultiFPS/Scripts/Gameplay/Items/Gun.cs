@@ -15,6 +15,7 @@ namespace MultiFPS.Gameplay
         [SerializeField] protected AudioClip fireClip;
         [SerializeField] protected AudioClip reloadClip;
         [SerializeField] private GunFire gunFire;
+        [SerializeField] private GunFire secondaryFire;
 
         [Header("Base gun properties")]
         public float ReloadTime = 1.5f;
@@ -52,9 +53,8 @@ namespace MultiFPS.Gameplay
 
         protected override void Update()
         {
+            if (!MyOwner || secondaryFire) return;
             base.Update();
-
-            if (!MyOwner) return;
 
             _currentRecoilScopeMultiplier = _isScoping ? _recoil_scopeMultiplier : 1;
 
@@ -401,6 +401,13 @@ namespace MultiFPS.Gameplay
             base.HoldLeftTrigger();
         }
 
+        public override void HoldRightTrigger()
+        {
+            if (!MyOwner || secondaryFire) return;
+
+            base.HoldRightTrigger();
+        }
+
         public override void PressLeftTrigger()
         {
             if ( !MyOwner
@@ -419,6 +426,26 @@ namespace MultiFPS.Gameplay
                 return;
             
             gunFire.ReleaseTrigger();
+        }
+
+        public override void PressRightTrigger()
+        {
+            if ( !MyOwner
+                 || !MyOwner.IsAbleToUseItem 
+                 || !SecondaryFireAvailable()
+                 || !secondaryFire)
+                return;
+
+            secondaryFire.PressTrigger();
+        }
+
+        public override void ReleaseRightTrigger()
+        {
+            if (!MyOwner
+                || !gunFire)
+                return;
+            
+            secondaryFire.ReleaseTrigger();
         }
 
         /// <summary>

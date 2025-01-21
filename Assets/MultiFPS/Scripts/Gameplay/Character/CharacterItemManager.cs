@@ -248,13 +248,26 @@ namespace MultiFPS.Gameplay
 
         public void Fire2Press()
         {
-            
+            StartUsingItem();
+
+            if (!_characterInstance.IsClientOrBot()) return;
+            if (isServer && connectionToClient != null && !isOwned) return;
+
+            if (!_characterInstance.Block && _characterInstance.Health.CurrentHealth > 0 && CurrentlyUsedItem)
+                CurrentlyUsedItem.PressRightTrigger();
         }
 
         public void Fire2Release()
         {
-            
+            StartUsingItem();
+
+            if (!_characterInstance.IsClientOrBot()) return;
+            if (isServer && connectionToClient != null && !isOwned) return;
+
+            if (!_characterInstance.Block && _characterInstance.Health.CurrentHealth > 0 && CurrentlyUsedItem)
+                CurrentlyUsedItem.ReleaseRightTrigger();
         }
+        
         public void Reload() 
         {
             //dont push reload trigger if dead
