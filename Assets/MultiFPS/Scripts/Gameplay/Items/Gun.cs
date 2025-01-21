@@ -128,7 +128,7 @@ namespace MultiFPS.Gameplay
         {
             if (CurrentAmmo <= 0 || _isReloading || _doingMelee) return;
 
-            var hitscan = FireHitscan();
+            var hitscan = Hitscan.Fire(this, _damage);
             Use(hitscan);
         }
 
@@ -446,81 +446,6 @@ namespace MultiFPS.Gameplay
                 return;
             
             secondaryFire.ReleaseTrigger();
-        }
-
-        /// <summary>
-        /// method responsible for dealing damage and penetration
-        /// return struct with information about penetration points and materials that were hit in the way
-        /// </summary>
-        /// <returns></returns>
-        protected Hitscan FireHitscan() 
-        {
-            Quaternion hitRotation = Quaternion.identity;
-            RaycastHit[] hitScan = GameTools.HitScan(_firePoint, MyOwner.transform, GameManager.fireLayer, 250f);
-
-            int penetratedObjects = 0;
-
-            Vector3[] penetrationPositions;
-            byte[] penetratedObjectMaterialsIDs;
-
-            //we hit something, so we have to check what to do next
-            if (hitScan.Length > 0)
-            {
-                hitRotation = Quaternion.FromToRotation(Vector3.forward, hitScan[0].normal);
-
-                for (int i = 0; i < Mathf.Min(hitScan.Length, _bulletPuncture); i++)
-                {
-                    penetratedObjects++;
-
-                    RaycastHit currentHit = hitScan[i];
-                    GameObject go = currentHit.collider.gameObject;
-                    HitBox hb = go.GetComponent<HitBox>();
-                    if (hb)
-                    {
-                        if (!MyOwner.BOT)
-                        {
-                            CmdDamage(hb._health.DNID, hb.part, 1f / (i + 1), i == 0 ? AttackType.hitscan : AttackType.hitscanPenetrated); //the more objects we penetrated the less damage we deal
-                        }
-                        else
-                        {
-                            ServerDamage(hb._health, hb.part, 1f / (i + 1), i == 0 ? AttackType.hitscan : AttackType.hitscanPenetrated);
-                        }
-                    }
-                    if (go.layer == 0) //if we hitted solid wall, dont penetrate it further
-                        break;
-                }
-
-                penetrationPositions = new Vector3[penetratedObjects];
-                penetratedObjectMaterialsIDs = new byte[penetratedObjects];
-                //material detection for appropriate particle impact effect
-                for (int i = 0; i < penetratedObjects; i++)
-                {
-                    penetrationPositions.SetValue(hitScan[i].point, i);
-
-                    byte matID = 0;
-                    switch (hitScan[i].collider.tag)
-                    {
-                        case "Flesh":
-                            matID = 1;
-                            break;
-                    }
-
-                    penetratedObjectMaterialsIDs.SetValue(matID, i);
-                }
-            }
-            else 
-            {
-                penetrationPositions = new Vector3[1] { _firePoint.forward * 99999f };
-                penetratedObjectMaterialsIDs = new byte[0];
-            }
-
-
-
-            return new Hitscan() {
-                PenetrationPositions = penetrationPositions,
-                PenetratedObjectMaterialsIDs = penetratedObjectMaterialsIDs,
-                FirstHitRotation = hitRotation,
-            } ;
         }
 
         //spawn impact and bullet for given hitscan that happened
