@@ -24,7 +24,6 @@ namespace MultiFPS.Gameplay
         protected Coroutine _c_serverReload;
         protected Transform _firePoint;
 
-
         [SerializeField] int _bulletPuncture = 2;
 
         [SerializeField] protected GameObject _bulletPrefab;

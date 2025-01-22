@@ -4917,6 +4917,7 @@ GameObject:
   - component: {fileID: 2628629563475623985}
   - component: {fileID: 2628629563475623988}
   - component: {fileID: 2628629563475623995}
+  - component: {fileID: -8013574767765453373}
   m_Layer: 0
   m_Name: item_rifleV2
   m_TagString: Untagged
@@ -5115,6 +5116,8 @@ MonoBehaviour:
   _huskSpawner_particleSystem: {fileID: 553530563384574921}
   fireClip: {fileID: 8300000, guid: cb920a2a14a87ee43a8fe4d28219ed70, type: 3}
   reloadClip: {fileID: 8300000, guid: 8bbcb26fc5c72e046ba4ce9a8538c7d5, type: 3}
+  gunFire: {fileID: -8013574767765453373}
+  secondaryFire: {fileID: 0}
   ReloadTime: 1.8333334
   _bulletPuncture: 2
   _bulletPrefab: {fileID: 6905933170574764908, guid: 035b74b2a30434e4bace3c53972fde9b,
@@ -5221,6 +5224,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-8013574767765453373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2628629563475623980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f762490320c431aa9530ad49d70635c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gun: {fileID: 2628629563475623988}
+  interval: 0.1
 --- !u!1 &7296489856271539329
 GameObject:
   m_ObjectHideFlags: 0

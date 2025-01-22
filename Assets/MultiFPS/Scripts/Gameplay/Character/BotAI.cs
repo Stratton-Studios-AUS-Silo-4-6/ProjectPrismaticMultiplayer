@@ -22,7 +22,8 @@ namespace MTPSKIT.Gameplay
 
         public float RotationToTargetSpeed = 350f;
 
-        bool _pushTrigger = false;
+        private bool _pushTrigger = false;
+        private bool _isFiring = false;
 
         public float fireTime = 1.55f;
         public float waitForFireTime = 0.75f; //gap between firing
@@ -186,10 +187,19 @@ namespace MTPSKIT.Gameplay
                     {
                         _fireTime = Time.time + (_pushTrigger ? waitForFireTime : fireTime);
                         _pushTrigger = !_pushTrigger;
+
+                        if (_isFiring)
+                        {
+                            _isFiring = false;
+                            _characterInstance.CharacterItemManager.Fire1Release();
+                        }
                     }
 
-                    if (_pushTrigger)
-                        _characterInstance.CharacterItemManager.Fire1();
+                    if (_pushTrigger && !_isFiring)
+                    {
+                        _isFiring = true;
+                        _characterInstance.CharacterItemManager.Fire1Press();
+                    }
 
                     _characterInstance.SetActionKeyCode(ActionCodes.Sprint, false);
                     //SetBurst(true);
