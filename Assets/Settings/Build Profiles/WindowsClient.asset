@@ -24,6 +24,10 @@ MonoBehaviour:
     m_path: Assets/Source/MainMenu/Matchmaking.unity
   - m_enabled: 1
     m_path: Assets/Samples/Beamable/2.0.2/AccountManagement/Sample_AccountManager.unity
+  - m_enabled: 1
+    m_path: Assets/Source/MainMenu/Loadout.unity
+  - m_enabled: 1
+    m_path: Assets/Source/MainMenu/LoadoutEquip.unity
   - m_enabled: 0
     m_path: Assets/MultiFPS/Scripts/ServerListImplementation/hub_serverList.unity
   - m_enabled: 0

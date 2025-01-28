@@ -12,15 +12,23 @@ namespace StrattonStudioGames.PrisMulti
     {
         [SerializeField] private Button button;
         [SerializeField] private string sceneName;
+        [SerializeField] private Mode mode;
+        [SerializeField] private LoadSceneMode loadSceneMode = LoadSceneMode.Single; // todo: hide from inspector when Mode is unload
+            
+        public enum Mode
+        {
+            Load,
+            Unload,
+        }
 
         private void OnEnable()
         {
-            button.onClick.AddListener(OpenScene);
+            button.onClick.AddListener(TransitionScene);
         }
 
         private void OnDisable()
         {
-            button.onClick.RemoveListener(OpenScene);
+            button.onClick.RemoveListener(TransitionScene);
         }
 
         private void Reset()
@@ -28,9 +36,16 @@ namespace StrattonStudioGames.PrisMulti
             button = GetComponent<Button>();
         }
 
-        private void OpenScene()
+        private void TransitionScene()
         {
-            SceneManager.LoadSceneAsync(sceneName);
+            if (mode == Mode.Load)
+            {
+                SceneManager.LoadSceneAsync(sceneName, loadSceneMode);
+            }
+            else if (mode == Mode.Unload)
+            {
+                SceneManager.UnloadSceneAsync(sceneName);
+            }
         }
     }
 }
