@@ -58,5 +58,11 @@ namespace StrattonStudioGames.PrisMulti.Editor
         {
             EditorSceneManager.OpenScene("Assets/Source/MainMenu/Loadout.unity");
         }
+        
+        [MenuItem("Scenes/MainMenu/LoadoutEquip")]
+        private static void ToLoadoutEquip()
+        {
+            EditorSceneManager.OpenScene("Assets/Source/MainMenu/LoadoutEquip.unity");
+        }
     }
 }
