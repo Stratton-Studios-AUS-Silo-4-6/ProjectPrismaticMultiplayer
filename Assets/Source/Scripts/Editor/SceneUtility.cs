@@ -52,5 +52,11 @@ namespace StrattonStudioGames.PrisMulti.Editor
         {
             EditorSceneManager.OpenScene("Assets/Samples/Beamable/2.0.2/InventoryManagement/Sample_InventoryManager.unity");
         }
+        
+        [MenuItem("Scenes/MainMenu/Loadout")]
+        private static void ToLoadout()
+        {
+            EditorSceneManager.OpenScene("Assets/Source/MainMenu/Loadout.unity");
+        }
     }
 }
