@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 333223769bdf43329d689f95b01bcd7e, type: 3}
   m_Name: TacticalSmg_Default
   m_EditorClassIdentifier: 
-  cosmeticId: tsmg-default
+  cosmeticId: tacsmg-default
   mesh: {fileID: 2941274158721294118, guid: e22933f400f016c45be638a028fe3dc1, type: 3}
   material: {fileID: 2100000, guid: a8eda63d6506d9a45bc9dd4e4ed4191b, type: 2}
