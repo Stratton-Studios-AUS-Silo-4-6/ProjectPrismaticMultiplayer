@@ -9,22 +9,18 @@ namespace StrattonStudioGames.PrisMulti
         /// </summary>
         [SerializeField] private string itemId;
         
-        /// <summary>
-        /// Placeholder field. Direct reference to the cosmetic id which loads the cosmetic for the item.
-        /// </summary>
-        [SerializeField] private string cosmeticId;
-        
         [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
 
         private void Start()
         {
-            if (CosmeticDatabase.Instance.TryFind<GunCosmetic>(cosmeticId, out var gunCosmetic))
+            if (CosmeticApi.TryGetEquippedCosmetic<GunCosmetic>(itemId, out var cosmetic))
             {
-                gunCosmetic.Apply(skinnedMeshRenderer);
+                cosmetic.Apply(skinnedMeshRenderer);
+                
             }
             else
             {
-                Debug.LogError($"Could not find cosmetic of id [{cosmeticId}].");
+                Debug.LogError($"Could not find cosmetic of item [{itemId}].");
             }
         }
     }

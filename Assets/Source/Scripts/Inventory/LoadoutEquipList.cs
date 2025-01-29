@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using Button = UnityEngine.UI.Button;
 
 namespace StrattonStudioGames.PrisMulti
@@ -49,8 +50,18 @@ namespace StrattonStudioGames.PrisMulti
             {
                 entry.gameObject.SetActive(false);
             }
+
+            if (CosmeticApi.TryGetEquippedCosmetic<Cosmetic>(itemData.ItemId, out var cosmetic))
+            {
+                var equipped = listView.Entries.FirstOrDefault(x => x.Data.CosmeticId == cosmetic.CosmeticId);
+                selectedIndex = listView.Entries.IndexOf(equipped);
+                equipped.gameObject.SetActive(true);
+            }
+            else
+            {
+                listView.Entries[selectedIndex].gameObject.SetActive(true);
+            }
             
-            listView.Entries[selectedIndex].gameObject.SetActive(true);
         }
 
         #endregion
