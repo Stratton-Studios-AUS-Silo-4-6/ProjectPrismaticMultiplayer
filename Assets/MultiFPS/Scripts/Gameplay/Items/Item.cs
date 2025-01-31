@@ -3,6 +3,7 @@ using UnityEngine;
 using Mirror;
 using MultiFPS.UI.HUD;
 using MultiFPS.UI;
+using UnityEngine.Events;
 
 namespace MultiFPS.Gameplay
 {
@@ -134,6 +135,7 @@ namespace MultiFPS.Gameplay
         public delegate void OnShoot();
         public OnShoot Client_OnShoot;
 
+        public UnityAction onTake;
 
         //item custom UI, for example: sniper scope for sniper rifle
         [SerializeField] GameObject _itemUI;
@@ -420,6 +422,9 @@ namespace MultiFPS.Gameplay
             StopTakingItemProcedureIfExist();
 
             takingItemProcedure = StartCoroutine(TakeItemProcedure());
+            
+            onTake?.Invoke();
+            
             IEnumerator TakeItemProcedure() {
                 yield return new WaitForSeconds(takingTime);
                 _itemActive = true;
