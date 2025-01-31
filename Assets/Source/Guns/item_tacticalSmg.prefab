@@ -382,8 +382,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c12d59ca5c541b4b4a05017d052389f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   itemId: tacsmg
-  cosmeticId: tacsmg-camo
+  item: {fileID: 5595373685350744146}
   skinnedMeshRenderer: {fileID: 2730650446456547712}
 --- !u!1 &2276094198257356298
 GameObject:
