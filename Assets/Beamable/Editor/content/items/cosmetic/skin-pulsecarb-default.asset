@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 333223769bdf43329d689f95b01bcd7e, type: 3}
-  m_Name: PhotonRifle_Default
+  m_Name: skin-pulsecarb-default
   m_EditorClassIdentifier: 
-  cosmeticId: photrifle-default
-  mesh: {fileID: 2941274158721294118, guid: a00c8a36e65396c47bfc28b7f93fb503, type: 3}
-  material: {fileID: 2100000, guid: 51e0784ce8530714d8ecf90c27b87633, type: 2}
+  cosmeticId: pulsecarb-default
+  mesh: {fileID: 2941274158721294118, guid: d8366ac4520b2d54b82f232d6294b738, type: 3}
+  material: {fileID: 2100000, guid: 80f55e3361668ce4184f9f8a1a2d43e7, type: 2}

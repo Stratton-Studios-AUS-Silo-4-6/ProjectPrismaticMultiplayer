@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Beamable.Common.Content;
+using Mirror;
 using MultiFPS.Gameplay;
 using UnityEngine;
 
@@ -15,7 +16,12 @@ namespace StrattonStudioGames.PrisMulti
         
         [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
 
-        [SyncVar] private string syncCosmeticId;
+        /// <summary>
+        /// Test value for passing content data to the network.
+        /// </summary>
+        [SerializeField] private ContentRef<GunCosmetic> localContent;
+
+        [SyncVar] private string syncContentId;
 
         private void OnEnable()
         {
@@ -33,64 +39,58 @@ namespace StrattonStudioGames.PrisMulti
         [Client]
         private void SetCosmetics()
         {
-            Debug.Log("attempting to set skin...");
-            
             if (!item.MyOwner?.isOwned ?? false)
             {
                 return;
             }
-            if (CosmeticApi.TryGetEquippedCosmetic<GunCosmetic>(itemId, out var cosmetic))
+
+            if (!isServer)
             {
-                CmdSetCosmetics(cosmetic.CosmeticId);
+                CmdSetCosmetics(localContent.GetId());
             }
             else
             {
-                Debug.LogError($"cannot find asset for: [{cosmetic.CosmeticId}]");
+                RpcSetCosmetics(localContent.GetId());
             }
         }
 
         /// <summary>
         /// The command given by the client to a server that tells other clients to update the cosmetic of this item. 
         /// </summary>
-        /// <param name="cosmeticId"></param>
+        /// <param name="contentId"></param>
         [Command]
-        private void CmdSetCosmetics(string cosmeticId)
+        private void CmdSetCosmetics(string contentId)
         {
-            syncCosmeticId = cosmeticId;
-            RpcSetCosmetics(cosmeticId);
+            syncContentId = contentId;
+            RpcSetCosmetics(contentId);
         }
 
         /// <summary>
         /// The rpc received by other clients to update their own instance of the item with the applied cosmetic.
         /// </summary>
-        /// <param name="cosmeticId"></param>
+        /// <param name="contentId"></param>
         [ClientRpc]
-        private void RpcSetCosmetics(string cosmeticId)
+        private void RpcSetCosmetics(string contentId)
         {
-            SetCosmeticsInternal(cosmeticId);
+            SetCosmeticsInternal(contentId);
         }
 
         /// <summary>
         /// The internal method that actually applies the cosmetics to this item.
         /// </summary>
-        /// <param name="cosmeticId"></param>
-        private void SetCosmeticsInternal(string cosmeticId)
+        /// <param name="contentId"></param>
+        private async void SetCosmeticsInternal(string contentId)
         {
-            if (CosmeticDatabase.Instance.TryFind<GunCosmetic>(cosmeticId, out var cosmetic))
-            {
-                cosmetic.Apply(skinnedMeshRenderer);
-            }
-            else
-            {
-                Debug.LogError($"No cosmetic found for {cosmeticId ?? "null"}");
-            }
+            var content = await Beamable.BeamContext.Default.Api.ContentService.GetContent(contentId);
+            var cosmetic = content as GunCosmetic;
+            cosmetic.Apply(skinnedMeshRenderer);
         }
 
         public override void OnStartClient()
         {
-            if (!string.IsNullOrWhiteSpace(syncCosmeticId))
+            if (!string.IsNullOrWhiteSpace(syncContentId))
             {
-                SetCosmeticsInternal(syncCosmeticId);
+                SetCosmeticsInternal(syncContentId);
             }
         }
     }

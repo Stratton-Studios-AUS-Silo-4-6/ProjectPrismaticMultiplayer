@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 333223769bdf43329d689f95b01bcd7e, type: 3}
-  m_Name: PulseCarbine_Default
+  m_Name: skin-pulsecarb-camo
   m_EditorClassIdentifier: 
-  cosmeticId: pulsecarb-default
+  cosmeticId: pulsecarb-camo
   mesh: {fileID: 2941274158721294118, guid: d8366ac4520b2d54b82f232d6294b738, type: 3}
-  material: {fileID: 2100000, guid: 80f55e3361668ce4184f9f8a1a2d43e7, type: 2}
+  material: {fileID: 2100000, guid: 0ca455ad2becdd0468eb3e746dd86d5a, type: 2}

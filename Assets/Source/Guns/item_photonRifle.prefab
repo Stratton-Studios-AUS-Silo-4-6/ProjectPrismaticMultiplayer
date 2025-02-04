@@ -398,6 +398,8 @@ MonoBehaviour:
   itemId: photrifle
   item: {fileID: 5595373685350744146}
   skinnedMeshRenderer: {fileID: 7663750581293109604}
+  localContent:
+    Id: items.cosmetic.skin-photrifle-camo
 --- !u!1 &1818996120659663828
 GameObject:
   m_ObjectHideFlags: 0

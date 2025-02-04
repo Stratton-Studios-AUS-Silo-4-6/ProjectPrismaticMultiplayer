@@ -388,6 +388,8 @@ MonoBehaviour:
   itemId: tacsmg
   item: {fileID: 5595373685350744146}
   skinnedMeshRenderer: {fileID: 2730650446456547712}
+  localContent:
+    Id: items.cosmetic.skin-tacsmg-camo
 --- !u!1 &2276094198257356298
 GameObject:
   m_ObjectHideFlags: 0

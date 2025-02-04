@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 333223769bdf43329d689f95b01bcd7e, type: 3}
-  m_Name: PhotonRifle_Camo
+  m_Name: skin-tacsmg-camo
   m_EditorClassIdentifier: 
-  cosmeticId: photrifle-camo
-  mesh: {fileID: 2941274158721294118, guid: a00c8a36e65396c47bfc28b7f93fb503, type: 3}
+  cosmeticId: tacsmg-camo
+  mesh: {fileID: 2941274158721294118, guid: e22933f400f016c45be638a028fe3dc1, type: 3}
   material: {fileID: 2100000, guid: 80f55e3361668ce4184f9f8a1a2d43e7, type: 2}
