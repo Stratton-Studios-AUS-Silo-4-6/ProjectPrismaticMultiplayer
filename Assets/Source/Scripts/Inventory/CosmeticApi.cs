@@ -1,25 +1,34 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 
 namespace StrattonStudioGames.PrisMulti
 {
     public static class CosmeticApi
     {
-        public static void Equip(string itemId, string cosmeticId)
+        public static void Equip(ItemType itemType, string cosmeticId)
         {
-            PlayerPrefs.SetString(itemId, cosmeticId);
+            var equipId = ToEquipMapId(itemType.ToString());
+            PlayerPrefs.SetString(equipId, cosmeticId);
         }
 
-        public static bool TryGetEquippedCosmetic<T>(string itemId, out T cosmetic) where T : Cosmetic
+        public static async Task<T> GetEquippedCosmetic<T>(ItemType itemType) where T : Cosmetic
         {
-            var cosmeticId = PlayerPrefs.GetString(itemId, null);
+            var equipId = ToEquipMapId(itemType.ToString());
+            var cosmeticId = PlayerPrefs.GetString(equipId, null);
 
             if (string.IsNullOrWhiteSpace(cosmeticId))
             {
-                cosmetic = null;
-                return false;
+                return null;
             }
 
-            return CosmeticDatabase.Instance.TryFind(cosmeticId, out cosmetic);
+            var content = await Beamable.BeamContext.Default.Api.ContentService.GetContent(cosmeticId);
+            var cosmetic = content as T;
+            return cosmetic;
+        }
+
+        private static string ToEquipMapId(string itemId)
+        {
+            return $"local.equip.{itemId}";
         }
     }
 }

@@ -14,7 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GroupName: Default Local Group
   m_GUID: 78edbfbd7a3777144a420f297ef3198e
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 1784248757e87e64b89c1c75378f8871
+    m_Address: Assets/SciFiPackGunVol2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ca28ef95ec157ad49811e1b2e6a6c365
+    m_Address: Assets/Source/Items/Icons
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 6354daa65a86fad469ed532cdd2922d7, type: 2}
   m_SchemaSet:

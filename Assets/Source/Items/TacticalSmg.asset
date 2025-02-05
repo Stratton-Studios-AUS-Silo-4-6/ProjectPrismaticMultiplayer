@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81369fc2d4db41bfb4d50a658b27560d, type: 3}
   m_Name: TacticalSmg
   m_EditorClassIdentifier: 
-  itemId: tacsmg
+  itemType: 4
   itemName: Tactical Smg
-  cosmetics:
-  - {fileID: 11400000, guid: d181eff9022defa43bee6f9cccb254b5, type: 2}
-  - {fileID: 11400000, guid: e4ede33c87f8d8f47bb5bee379ec1b0c, type: 2}
+  cosmeticsRef:
+  - Id: items.cosmetic.skin-tacsmg-default
+  - Id: items.cosmetic.skin-tacsmg-camo

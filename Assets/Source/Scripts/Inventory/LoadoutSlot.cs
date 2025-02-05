@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,11 +7,11 @@ using UnityEngine.UI;
 namespace StrattonStudioGames.PrisMulti
 {
     /// <summary>
-    /// UI component that handles displaying <see cref="ItemData"/>.
+    /// UI component that handles displaying <see cref="GunItemData"/>.
     /// </summary>
     public class LoadoutSlot : MonoBehaviour
     {
-        [SerializeField] private ItemData itemData;
+        [SerializeField] private GunItemData gunItemData;
         [SerializeField] private Button button;
         [SerializeField] private TextMeshProUGUI label;
 
@@ -20,8 +19,8 @@ namespace StrattonStudioGames.PrisMulti
 
         private void Start()
         {
-            label.text = itemData?.ItemName ?? string.Empty;
-            button.interactable = itemData;
+            label.text = gunItemData?.ItemName ?? string.Empty;
+            button.interactable = gunItemData;
         }
 
         private void OnEnable()
@@ -57,7 +56,7 @@ namespace StrattonStudioGames.PrisMulti
             IEnumerator Wait()
             {
                 yield return new WaitUntil(() => LoadoutEquipPage.Instance);
-                LoadoutEquipPage.Instance.Init(itemData);
+                LoadoutEquipPage.Instance.Init(gunItemData);
             }
             
             SceneManager.sceneLoaded -= OnSceneLoaded;

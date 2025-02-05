@@ -1,17 +1,27 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using Beamable.Common.Content;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace StrattonStudioGames.PrisMulti
 {
-    [CreateAssetMenu(menuName = "PrisMulti/Cosmetic/Gun")]
+    // [CreateAssetMenu(menuName = "PrisMulti/Cosmetic/Gun")]
+    [ContentType("cosmetic")]
     public class GunCosmetic : Cosmetic
     {
-        [SerializeField] private Mesh mesh;
-        [SerializeField] private Material material;
+        [SerializeField] private AssetReferenceT<Mesh> meshRef;
 
-        public void Apply(SkinnedMeshRenderer skinnedMeshRenderer)
+        [SerializeField] private AssetReferenceT<Material> materialRef;
+
+        public async void Apply(SkinnedMeshRenderer skinnedMeshRenderer)
         {
-            skinnedMeshRenderer.sharedMesh = mesh;
-            skinnedMeshRenderer.material = material;
+            var meshTask = meshRef.LoadAssetAsync().Task;
+            var materialTask = materialRef.LoadAssetAsync().Task;
+
+            await Task.WhenAll(meshTask, materialTask);
+
+            skinnedMeshRenderer.sharedMesh = meshTask.Result;
+            skinnedMeshRenderer.material = materialTask.Result;
         }
     }
 }

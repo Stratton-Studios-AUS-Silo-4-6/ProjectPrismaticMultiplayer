@@ -4,6 +4,12 @@ using Button = UnityEngine.UI.Button;
 
 namespace StrattonStudioGames.PrisMulti
 {
+    /// <summary>
+    /// A list of equippable items for a given <see cref="ItemType"/>.
+    /// </summary>
+    /// <remarks>
+    /// e.g. Skins of a Photon Rifle.
+    /// </remarks>
     public class LoadoutEquipList : MonoBehaviour
     {
         [SerializeField] private Button equipButton;
@@ -13,8 +19,9 @@ namespace StrattonStudioGames.PrisMulti
         [SerializeField] private LoadoutEquipEntry prefab;
 
         private ListView<Cosmetic, LoadoutEquipEntry> listView;
-        private ItemData itemData;
+        private GunItemData gunItemData;
         private int selectedIndex;
+        private Cosmetic[] cosmetics;
         
         #region Unity hooks
 
@@ -41,19 +48,22 @@ namespace StrattonStudioGames.PrisMulti
 
         #region Public methods
 
-        public void Init(ItemData itemData)
+        public async void Init(GunItemData gunItemData)
         {
-            this.itemData = itemData;
-            listView.Add(itemData.Cosmetics);
+            this.gunItemData = gunItemData;
+            cosmetics = await gunItemData.GetCosmetics();
+            listView.Add(cosmetics);
 
             foreach (var entry in listView.Entries)
             {
                 entry.gameObject.SetActive(false);
             }
 
-            if (CosmeticApi.TryGetEquippedCosmetic<Cosmetic>(itemData.ItemId, out var cosmetic))
+            var equippedCosmetic = await CosmeticApi.GetEquippedCosmetic<Cosmetic>(gunItemData.ItemType);
+
+            if (equippedCosmetic != null)
             {
-                var equipped = listView.Entries.FirstOrDefault(x => x.Data.CosmeticId == cosmetic.CosmeticId);
+                var equipped = listView.Entries.FirstOrDefault(x => x.Data.Id == equippedCosmetic.Id);
                 selectedIndex = listView.Entries.IndexOf(equipped);
                 equipped.gameObject.SetActive(true);
             }
@@ -61,15 +71,14 @@ namespace StrattonStudioGames.PrisMulti
             {
                 listView.Entries[selectedIndex].gameObject.SetActive(true);
             }
-            
         }
 
         #endregion
 
         private void OnEquip()
         {
-            var selectedCosmetic = itemData.Cosmetics[selectedIndex];
-            CosmeticApi.Equip(itemData.ItemId, selectedCosmetic.CosmeticId);
+            var selectedCosmetic = cosmetics[selectedIndex];
+            CosmeticApi.Equip(gunItemData.ItemType, selectedCosmetic.Id);
         }
 
         private void ToPrev()
@@ -84,7 +93,7 @@ namespace StrattonStudioGames.PrisMulti
 
         private void ToNext()
         {
-            if (selectedIndex < itemData.Cosmetics.Length - 1)
+            if (selectedIndex < gunItemData.CosmeticsAmount - 1)
             {
                 listView.Entries[selectedIndex].gameObject.SetActive(false);
                 selectedIndex++;

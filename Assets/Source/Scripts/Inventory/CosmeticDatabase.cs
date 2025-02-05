@@ -12,7 +12,7 @@ namespace StrattonStudioGames.PrisMulti
 
         public bool TryFind<T>(string cosmeticId, out T cosmetic) where T : Cosmetic
         {
-             cosmetic = entries.FirstOrDefault(item => item.CosmeticId == cosmeticId) as T;
+             cosmetic = entries.FirstOrDefault(item => item.Id == cosmeticId) as T;
              
              if (cosmetic == null)
              {

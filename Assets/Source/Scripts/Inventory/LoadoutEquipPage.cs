@@ -13,10 +13,10 @@ namespace StrattonStudioGames.PrisMulti
 
         #region Public methods
 
-        public void Init(ItemData itemData)
+        public void Init(GunItemData gunItemData)
         {
-            headerLabel.text = itemData.ItemName;
-            loadoutEquipList.Init(itemData);
+            headerLabel.text = gunItemData.ItemName;
+            loadoutEquipList.Init(gunItemData);
         }
 
         #endregion

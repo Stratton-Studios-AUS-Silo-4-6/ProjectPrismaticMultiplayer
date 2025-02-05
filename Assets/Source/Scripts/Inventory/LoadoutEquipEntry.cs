@@ -12,7 +12,7 @@ namespace StrattonStudioGames.PrisMulti
         public void OnAdd(Cosmetic data)
         {
             Data = data;
-            label.text = data.CosmeticId;
+            label.text = data.Id;
         }
 
         public void OnRemove()
