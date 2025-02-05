@@ -1,5 +1,4 @@
-﻿using Beamable.Common.Content;
-using Mirror;
+﻿using Mirror;
 using MultiFPS.Gameplay;
 using UnityEngine;
 
@@ -16,10 +15,7 @@ namespace StrattonStudioGames.PrisMulti
         
         [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
 
-        /// <summary>
-        /// Test value for passing content data to the network.
-        /// </summary>
-        [SerializeField] private ContentRef<GunCosmetic> localContent;
+        [SerializeField] private ItemType itemType;
 
         [SyncVar] private string syncContentId;
 
@@ -37,20 +33,26 @@ namespace StrattonStudioGames.PrisMulti
         /// Invoked by a client to try to set the cosmetics of this item.
         /// </summary>
         [Client]
-        private void SetCosmetics()
+        private async void SetCosmetics()
         {
             if (!item.MyOwner?.isOwned ?? false)
             {
                 return;
             }
 
-            if (!isServer)
+            var gunCosmetic = await CosmeticApi.GetEquippedCosmetic<GunCosmetic>(itemType);
+
+            if (!gunCosmetic)
             {
-                CmdSetCosmetics(localContent.GetId());
+                Debug.LogError($"could not load cosmetic for {itemType.ToString()}");
+            }
+            else if (!isServer)
+            {
+                CmdSetCosmetics(gunCosmetic.Id);
             }
             else
             {
-                RpcSetCosmetics(localContent.GetId());
+                RpcSetCosmetics(gunCosmetic.Id);
             }
         }
 

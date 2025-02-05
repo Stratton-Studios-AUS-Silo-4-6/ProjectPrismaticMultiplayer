@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81369fc2d4db41bfb4d50a658b27560d, type: 3}
   m_Name: PhotonRifle
   m_EditorClassIdentifier: 
-  itemId: photrifle
+  itemType: 1
   itemName: Photon Rifle
-  cosmetics:
-  - {fileID: 11400000, guid: 38d83ed55fa97bc489d909da737908ee, type: 2}
-  - {fileID: 11400000, guid: f070438dcf0b7964bab158c6a66136ef, type: 2}
+  cosmeticsRef:
+  - Id: items.cosmetic.skin-photrifle-default
+  - Id: items.cosmetic.skin-photrifle-camo

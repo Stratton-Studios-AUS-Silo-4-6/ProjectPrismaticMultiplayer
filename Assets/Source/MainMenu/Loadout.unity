@@ -345,6 +345,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1e68c40d733633b48a9c98fe6753b574,
         type: 2}
+    - target: {fileID: 2733865041955750615, guid: d59f8fcc9643b3946bb991c112c799c9,
+        type: 3}
+      propertyPath: gunItemData
+      value: 
+      objectReference: {fileID: 11400000, guid: 66bb5046837ed434f9c589eb60d5e121,
+        type: 2}
     - target: {fileID: 5061109646925659430, guid: d59f8fcc9643b3946bb991c112c799c9,
         type: 3}
       propertyPath: m_Pivot.x
@@ -648,6 +654,12 @@ PrefabInstance:
       propertyPath: itemData
       value: 
       objectReference: {fileID: 11400000, guid: 97c47e919064a034885584a318eac8d3,
+        type: 2}
+    - target: {fileID: 2733865041955750615, guid: d59f8fcc9643b3946bb991c112c799c9,
+        type: 3}
+      propertyPath: gunItemData
+      value: 
+      objectReference: {fileID: 11400000, guid: 1e68c40d733633b48a9c98fe6753b574,
         type: 2}
     - target: {fileID: 5061109646925659430, guid: d59f8fcc9643b3946bb991c112c799c9,
         type: 3}
@@ -4193,6 +4205,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2cadce8443cfd0a4a9e89acdfe01137d,
         type: 2}
+    - target: {fileID: 2733865041955750615, guid: d59f8fcc9643b3946bb991c112c799c9,
+        type: 3}
+      propertyPath: gunItemData
+      value: 
+      objectReference: {fileID: 11400000, guid: 2cadce8443cfd0a4a9e89acdfe01137d,
+        type: 2}
     - target: {fileID: 5061109646925659430, guid: d59f8fcc9643b3946bb991c112c799c9,
         type: 3}
       propertyPath: m_Pivot.x
@@ -4322,6 +4340,12 @@ PrefabInstance:
       propertyPath: itemData
       value: 
       objectReference: {fileID: 11400000, guid: 66bb5046837ed434f9c589eb60d5e121,
+        type: 2}
+    - target: {fileID: 2733865041955750615, guid: d59f8fcc9643b3946bb991c112c799c9,
+        type: 3}
+      propertyPath: gunItemData
+      value: 
+      objectReference: {fileID: 11400000, guid: 97c47e919064a034885584a318eac8d3,
         type: 2}
     - target: {fileID: 5061109646925659430, guid: d59f8fcc9643b3946bb991c112c799c9,
         type: 3}

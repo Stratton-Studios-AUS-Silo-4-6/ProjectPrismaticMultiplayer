@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81369fc2d4db41bfb4d50a658b27560d, type: 3}
   m_Name: BallisticRepeater
   m_EditorClassIdentifier: 
-  itemId: brepeater
+  itemType: 2
   itemName: Ballistic Repeater
-  cosmetics:
-  - {fileID: 11400000, guid: 4e37ea2e9ae474141ad8c35c047e72d9, type: 2}
-  - {fileID: 11400000, guid: 0df42c455921582439f55cde44a1ea9a, type: 2}
+  cosmeticsRef:
+  - Id: items.cosmetic.skin-brepeater-default
+  - Id: items.cosmetic.skin-brepeater-camo

@@ -12,6 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 333223769bdf43329d689f95b01bcd7e, type: 3}
   m_Name: skin-tacsmg-camo
   m_EditorClassIdentifier: 
-  cosmeticId: tacsmg-camo
-  mesh: {fileID: 2941274158721294118, guid: e22933f400f016c45be638a028fe3dc1, type: 3}
-  material: {fileID: 2100000, guid: 80f55e3361668ce4184f9f8a1a2d43e7, type: 2}
+  _tags: []
+  icon:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  clientPermission:
+    writeSelf: 0
+  federation:
+    HasValue: 0
+    Value:
+      Service: 
+      Namespace: 
+  itemType: 4
+  meshRef:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  materialRef:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0

@@ -26,7 +26,7 @@ MonoBehaviour:
     Value:
       Service: 
       Namespace: 
-  cosmeticId: photrifle-camo
+  itemType: 1
   meshRef:
     m_AssetGUID: a00c8a36e65396c47bfc28b7f93fb503
     m_SubObjectName: Gun

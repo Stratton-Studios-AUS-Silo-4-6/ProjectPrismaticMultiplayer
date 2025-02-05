@@ -12,6 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 333223769bdf43329d689f95b01bcd7e, type: 3}
   m_Name: skin-brepeater-camo
   m_EditorClassIdentifier: 
-  cosmeticId: brepeater-camo
-  mesh: {fileID: 2941274158721294118, guid: 327ba6b35ecaba04baaf05649f95a7c7, type: 3}
-  material: {fileID: 2100000, guid: 5ce00379317e41e478ec22c08d17e896, type: 2}
+  _tags: []
+  icon:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  clientPermission:
+    writeSelf: 0
+  federation:
+    HasValue: 0
+    Value:
+      Service: 
+      Namespace: 
+  itemType: 2
+  meshRef:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  materialRef:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0

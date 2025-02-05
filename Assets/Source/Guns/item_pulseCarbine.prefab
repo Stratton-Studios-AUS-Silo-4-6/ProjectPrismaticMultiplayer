@@ -358,8 +358,7 @@ MonoBehaviour:
   itemId: pulsecarb
   item: {fileID: 5595373685350744146}
   skinnedMeshRenderer: {fileID: 8592389654192567981}
-  localContent:
-    Id: items.cosmetic.skin-pulsecarb-camo
+  itemType: 3
 --- !u!1 &313861111092050973
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,8 +8,8 @@ namespace StrattonStudioGames.PrisMulti
     /// </summary>
     public abstract class Cosmetic : ItemContent
     {
-        [SerializeField] private string cosmeticId;
+        [SerializeField] private ItemType itemType;
 
-        public string CosmeticId => cosmeticId;
+        public ItemType ItemType => itemType;
     } 
 }
