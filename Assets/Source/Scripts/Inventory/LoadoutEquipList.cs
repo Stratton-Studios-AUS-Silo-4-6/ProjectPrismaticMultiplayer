@@ -51,7 +51,7 @@ namespace StrattonStudioGames.PrisMulti
         public async void Init(GunItemData gunItemData)
         {
             this.gunItemData = gunItemData;
-            cosmetics = await gunItemData.GetCosmetics();
+            cosmetics = await CosmeticInventoryContainer.Instance.GetOwnedCosmetics<GunCosmetic>(gunItemData.ItemType);
             listView.Add(cosmetics);
 
             foreach (var entry in listView.Entries)

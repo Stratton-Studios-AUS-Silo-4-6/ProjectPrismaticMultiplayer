@@ -56,7 +56,7 @@ namespace StrattonStudioGames.PrisMulti
 
         #endregion
 
-        private async Task<PlayerItemGroup> RefreshItems(string contentType = null)
+        public async Task<PlayerItemGroup> RefreshItems(string contentType = null)
         {
             var context = await BeamContext.Default.Instance;
             var items = string.IsNullOrEmpty(contentType) ?
@@ -72,7 +72,7 @@ namespace StrattonStudioGames.PrisMulti
         /// <param name="itemType"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        private async Task<T[]> GetCosmetics<T>(ItemType itemType) where T : Cosmetic
+        public async Task<T[]> GetOwnedCosmetics<T>(ItemType itemType) where T : Cosmetic
         {
             var items = await RefreshItems("items.cosmetic");
             var cosmetics = from item in items
