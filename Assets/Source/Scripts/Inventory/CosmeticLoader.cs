@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Beamable.Common.Inventory;
+using Mirror;
 using MultiFPS.Gameplay;
 using UnityEngine;
 
@@ -40,7 +41,7 @@ namespace StrattonStudioGames.PrisMulti
                 return;
             }
 
-            var gunCosmetic = await CosmeticApi.GetEquippedCosmetic<GunCosmetic>(itemType);
+            var gunCosmetic = await CosmeticInventoryContainer.Instance.GetEquippedCosmetic<GunCosmetic>(itemType);
 
             if (!gunCosmetic)
             {

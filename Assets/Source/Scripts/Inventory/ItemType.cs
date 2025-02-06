@@ -2,6 +2,7 @@
 
 namespace StrattonStudioGames.PrisMulti
 {
+    [Serializable]
     public enum ItemType
     {
         None,

@@ -59,7 +59,7 @@ namespace StrattonStudioGames.PrisMulti
                 entry.gameObject.SetActive(false);
             }
 
-            var equippedCosmetic = await CosmeticApi.GetEquippedCosmetic<Cosmetic>(gunItemData.ItemType);
+            var equippedCosmetic = await CosmeticInventoryContainer.Instance.GetEquippedCosmetic<GunCosmetic>(gunItemData.ItemType);
 
             if (equippedCosmetic != null)
             {
@@ -78,7 +78,8 @@ namespace StrattonStudioGames.PrisMulti
         private void OnEquip()
         {
             var selectedCosmetic = cosmetics[selectedIndex];
-            CosmeticApi.Equip(gunItemData.ItemType, selectedCosmetic.Id);
+            CosmeticInventoryContainer.Instance.Equip(gunItemData.ItemType, selectedCosmetic.Id);
+            CosmeticInventoryContainer.Instance.Save();
         }
 
         private void ToPrev()
