@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.IO;
+using UnityEditor;
 using UnityEditor.SceneManagement;
 
 namespace StrattonStudioGames.PrisMulti.Editor
@@ -6,7 +7,7 @@ namespace StrattonStudioGames.PrisMulti.Editor
     public static class SceneUtility
     {
         [MenuItem("Scenes/MainMenu/Matchmaking")]
-        private static void ToLogin()
+        private static void ToMatchmaking()
         {
             EditorSceneManager.OpenScene("Assets/Source/MainMenu/Matchmaking.unity");
         }
@@ -63,6 +64,12 @@ namespace StrattonStudioGames.PrisMulti.Editor
         private static void ToLoadoutEquip()
         {
             EditorSceneManager.OpenScene("Assets/Source/MainMenu/LoadoutEquip.unity");
+        }
+        
+        [MenuItem("Scenes/MainMenu/Login")]
+        private static void ToLogin()
+        {
+            EditorSceneManager.OpenScene("Assets/Source/MainMenu/Login.unity");
         }
     }
 }
