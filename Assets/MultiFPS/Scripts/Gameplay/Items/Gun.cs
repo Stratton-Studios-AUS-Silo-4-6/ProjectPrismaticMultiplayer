@@ -125,50 +125,80 @@ namespace MultiFPS.Gameplay
         #region shooting
         public override void Use()
         {
-            if (CurrentAmmo <= 0 || _isReloading || _doingMelee) return;
+            if (!CanUse()) return;
 
             var hitscan = Hitscan.Fire(this, _damage);
             Use(hitscan);
         }
 
+        public bool CanUse()
+        {
+            if (CurrentAmmo < 1)
+            {
+                return false;
+            }
+
+            if (_isReloading)
+            {
+                return false;
+            }
+
+            if (_doingMelee)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public void Use(Hitscan hitscan)
         {
-            if (CurrentAmmo <= 0 || _isReloading || _doingMelee) return;
+            if (!CanUse()) return;
 
             base.Use();
-            float finalRecoil = CurrentRecoil * MyOwner.RecoilFactor_Movement * _currentRecoilScopeMultiplier;
+            Recoil();
+            VisualUse(hitscan);
+            ClientChangeCurrentAmmoCount(CurrentAmmo - 1);
+        }
 
-            _firePoint.localRotation = Quaternion.Euler(Random.Range(-finalRecoil, finalRecoil), Random.Range(-finalRecoil, finalRecoil), 0);
-
+        public void VisualUse(Hitscan hitscan)
+        {
             if (isOwned)
             {
-                Shoot(hitscan);
-                CmdShoot(hitscan);
+                ShootVisual(hitscan);
+                CmdShootVisual(hitscan);
             }
             else if (isServer)
             {
                 Server_CurrentAmmo--;
-                RpcShoot(hitscan);
+                RpcShootVisual(hitscan);
             }
+        }
 
-            ClientChangeCurrentAmmoCount(CurrentAmmo - 1);   
+        /// <summary>
+        /// Applies recoil to the gun based on configured values.
+        /// </summary>
+        public void Recoil()
+        {
+            var finalRecoil = CurrentRecoil * MyOwner.RecoilFactor_Movement * _currentRecoilScopeMultiplier;
+            _firePoint.localRotation = Quaternion.Euler(Random.Range(-finalRecoil, finalRecoil), Random.Range(-finalRecoil, finalRecoil), 0);
         }
 
         [Command]
-        protected void CmdShoot(Hitscan info)
+        public void CmdShootVisual(Hitscan info)
         {
             if (Server_CurrentAmmo > 0)
             {
                 Server_CurrentAmmo--;
-                RpcShoot(info);
+                RpcShootVisual(info);
             }
         }
         [ClientRpc(includeOwner = false)]
-        protected void RpcShoot(Hitscan info)
+        public void RpcShootVisual(Hitscan info)
         {
             if (MyOwner)
             {
-                Shoot(info);
+                ShootVisual(info);
 
                 if (!isServer)
                     ClientChangeCurrentAmmoCount(CurrentAmmo-1);
@@ -176,7 +206,7 @@ namespace MultiFPS.Gameplay
         }
 
         //paper shot, no damage, no game logic, only visuals
-        protected void Shoot(Hitscan info)
+        public void ShootVisual(Hitscan info)
         {
             AddAimRecoild(_recoil_aimCamera_recoil);
 

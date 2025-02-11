@@ -935,10 +935,16 @@ namespace MultiFPS.Gameplay
             CurrentAmmo = currentAmmo;
             OnCurrentAmmoChanged();
         }
+        
         protected virtual void OnCurrentAmmoChanged()
         {
             var totalAmountLabel = CurrentAmmoSupply == int.MaxValue ? "-" : CurrentAmmoSupply.ToString();
             UpdateAmmoInHud(CurrentAmmo.ToString(), totalAmountLabel);
+        }
+
+        public void ClientReduceAmmo()
+        {
+            ClientChangeCurrentAmmoCount(CurrentAmmo - 1);
         }
 
         [ClientRpc]
