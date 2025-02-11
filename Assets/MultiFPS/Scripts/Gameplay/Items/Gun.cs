@@ -178,6 +178,7 @@ namespace MultiFPS.Gameplay
         /// <summary>
         /// Applies recoil to the gun based on configured values.
         /// </summary>
+        [Client]
         public void Recoil()
         {
             var finalRecoil = CurrentRecoil * MyOwner.RecoilFactor_Movement * _currentRecoilScopeMultiplier;
