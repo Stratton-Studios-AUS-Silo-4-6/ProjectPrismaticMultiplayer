@@ -63,7 +63,7 @@ namespace StrattonStudioGames.PrisMulti
             Debug.Log(sessionKey.ToString());
             
             stateLabel.text = "Logging in...";
-            await SceneManager.LoadSceneAsync("Matchmaking", LoadSceneMode.Single);
+            await SceneManager.LoadSceneAsync("MainMenu", LoadSceneMode.Single);
         }
     }
 }
