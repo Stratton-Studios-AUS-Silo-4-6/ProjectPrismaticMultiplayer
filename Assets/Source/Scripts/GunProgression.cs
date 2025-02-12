@@ -185,7 +185,7 @@ namespace StrattonStudioGames.PrisMulti
 
         private void SpawnProgressItem(PlayerInstance playerInstance)
         {
-            var kills = playerInstance.Kills;
+            var kills = playerInstance.Kills > -1 ? playerInstance.Kills : 0;
             var prefab = config.GetItem(kills);
             var instance = Instantiate(prefab);
             instance.Server_CurrentAmmoSupply = int.MaxValue;

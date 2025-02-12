@@ -133,6 +133,7 @@ namespace MultiFPS.Gameplay
             }
         }
 
+        [Client]
         public void RandomRecoil()
         {
             float finalRecoil = CurrentRecoil * MyOwner.RecoilFactor_Movement * _currentRecoilScopeMultiplier;            
