@@ -11,6 +11,12 @@ namespace StrattonStudioGames.PrisMulti.Editor
         {
             EditorSceneManager.OpenScene("Assets/Source/MainMenu/Matchmaking.unity");
         }
+        
+        [MenuItem("Scenes/MainMenu/MainMenu")]
+        private static void ToMainMenu()
+        {
+            EditorSceneManager.OpenScene("Assets/Source/MainMenu/MainMenu.unity");
+        }
 
         [MenuItem("Scenes/Gameplay/Range")]
         private static void ToRange()
