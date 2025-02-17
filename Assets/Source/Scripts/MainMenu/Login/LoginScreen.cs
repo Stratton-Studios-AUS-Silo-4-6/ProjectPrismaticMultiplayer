@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Beamable;
 using Thirdweb;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,22 +11,83 @@ namespace StrattonStudioGames.PrisMulti
 {
     public class LoginScreen : MonoBehaviour
     {
-        [SerializeField] private Button button;
+        [SerializeField] private TMP_InputField usernameField;
+        [SerializeField] private TMP_InputField passwordField;
+        [SerializeField] private Button loginButton;
+        [SerializeField] private Button googleButton;
+        [SerializeField] private Button facebookButton;
+        [SerializeField] private Button loginAsGuest;
+        [SerializeField] private Button exitButton;
         [SerializeField] private TextMeshProUGUI stateLabel;
-            
+        
         private ulong ActiveChainId = 421614;
+        private BeamContext _beamContext;
+
+        private async void Start()
+        {
+            googleButton.interactable = false;
+            facebookButton.interactable = false;
+            loginButton.interactable = false;
+            usernameField.interactable = false;
+            passwordField.interactable = false;
+            stateLabel.text = "Initializing Beamable...";
+            
+            _beamContext = BeamContext.Default;
+            await _beamContext.OnReady;
+            await _beamContext.Accounts.OnReady;
+            
+            loginButton.interactable = true;
+            usernameField.interactable = true;
+            passwordField.interactable = true;
+            stateLabel.text = string.Empty;
+        }
 
         private void OnEnable()
         {
-            button.onClick.AddListener(Login);
+            loginButton.onClick.AddListener(LoginEmail);
+            loginAsGuest.onClick.AddListener(LoginGuest);
+            exitButton.onClick.AddListener(Application.Quit);
         }
 
         private void OnDisable()
         {
-            button.onClick.RemoveListener(Login);
+            loginButton.onClick.RemoveListener(LoginEmail);
+            loginAsGuest.onClick.RemoveListener(LoginGuest);
+            exitButton.onClick.RemoveListener(Application.Quit);
         }
 
-        private async void Login()
+        private async void LoginEmail()
+        {
+            stateLabel.text = $"Logging in via email...";
+            loginButton.interactable = false;
+            loginAsGuest.interactable = false;
+            usernameField.interactable = false;
+            passwordField.interactable = false;
+            
+            var operation = await _beamContext.Accounts.RecoverAccountWithEmail(usernameField.text, passwordField.text);
+            
+            if (operation.isSuccess)
+            {
+                Debug.Log($"Found existing account, playerId=[{operation.account.GamerTag}]");
+                await operation.SwitchToAccount();
+                SceneManager.LoadSceneAsync("MainMenu", LoadSceneMode.Single);
+            }
+            else
+            {
+                loginButton.interactable = true;
+                loginAsGuest.interactable = true;
+                usernameField.interactable = true;
+                passwordField.interactable = true;
+                stateLabel.text = $"Failed to recovery account via email, reason=[{operation.error}]";
+            }
+        }
+
+        private void LoginGuest()
+        {
+            SceneManager.LoadSceneAsync("MainMenu", LoadSceneMode.Single);
+        }
+
+        private async void InitThirdWeb()
         {
             ThirdwebManager.Instance.Initialize();
             
@@ -61,9 +123,6 @@ namespace StrattonStudioGames.PrisMulti
             );
             
             Debug.Log(sessionKey.ToString());
-            
-            stateLabel.text = "Logging in...";
-            await SceneManager.LoadSceneAsync("MainMenu", LoadSceneMode.Single);
         }
     }
 }
